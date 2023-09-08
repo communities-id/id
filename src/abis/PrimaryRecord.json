@@ -1,0 +1,72 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "contract IMemberRouter",
+        "name": "router_",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "ErrInvalidBalance",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ErrNotPermitted",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "address_",
+        "type": "address"
+      }
+    ],
+    "name": "getPrimaryRecord",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "bytes32",
+            "name": "baseNode",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "node",
+            "type": "bytes32"
+          }
+        ],
+        "internalType": "struct PrimaryRecord.Record",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "baseNode_",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "node_",
+        "type": "bytes32"
+      }
+    ],
+    "name": "setPrimaryRecord",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  }
+]

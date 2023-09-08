@@ -1,0 +1,27 @@
+{
+  "name": "@communitiesid/id",
+  "version": "0.0.8",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@siddomains/sidjs": "^0.1.29",
+    "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
+    "eth-ens-namehash": "^2.0.8",
+    "ethers": "^5.7.2"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.21.5",
+    "@types/jest": "^29.5.1",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.4"
+  }
+}
