@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { keccak256, parseTokenURI } from "./shared/utils";
-import { BrandDID, UserDID, SupportedChainIds } from "./shared/types";
+import { BrandDID, UserDID, SupportedChainIds, SupportedChains } from "./shared/types";
 import { CHAINS_ID_TO_NETWORK, CONTRACT_MAP, MAIN_CHAIN_ID, ABIs, ONE_ADDRESS } from "./shared/constant";
 
 export default class SDKBase {
@@ -46,6 +46,18 @@ export default class SDKBase {
     }
     const writeableContract = contract.connect(this.signerGenerator[chainsIdToNetwork[chainId]](provider))
     return writeableContract
+  }
+
+
+  /**
+   * Set signer for write operation
+   *
+   * @param signer - ethers.Signer object
+   * @param network - The network that you want to set signer on
+   *
+   */
+  setSigner(signer: ethers.Signer, network: SupportedChains) {
+    this.signerGenerator[network] =() => signer
   }
 
   /**
@@ -111,7 +123,7 @@ export default class SDKBase {
       chainId,
       state,
       owner,
-      pool: Number(pool),
+      pool: pool,
       totalSupply: Number(totalSupply),
       node: {
         node: node.node,

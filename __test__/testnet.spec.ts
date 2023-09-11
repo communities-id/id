@@ -1,6 +1,5 @@
 import { ethers } from "ethers";
-import CommunitiesID from "../src/index";
-import { CommunitiesIDInput } from "../src/shared/types";
+import CommunitiesID, { CommunitiesIDInput } from "../src/index";
 require('dotenv').config()
 
 const OPTIONS: CommunitiesIDInput = {

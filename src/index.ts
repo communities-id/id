@@ -82,3 +82,5 @@ export default class CommunitiesID {
     this.operator = new Operator(initOptions)
   }
 }
+
+export * from './shared/types'

@@ -56,7 +56,7 @@ export type BrandDID = {
   chainId: number
   state: number
   owner: string
-  pool: number
+  pool: BigNumber
   totalSupply: number
   node: {
     createTime: number
@@ -77,12 +77,12 @@ export type BrandDID = {
     attributes: []
   },
   priceModel: {
-    commissionRate: BigNumber | number
+    commissionRate: BigNumber
     mode: number
-    a: BigNumber | number
-    b: BigNumber | number
-    c: BigNumber | number
-    d: BigNumber | number
+    a: BigNumber
+    b: BigNumber
+    c: BigNumber
+    d: BigNumber
   },
   config: {
     imageBaseURI: string
