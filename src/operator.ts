@@ -32,13 +32,11 @@ export default class Operator extends SDKBase {
     const chainId = community.chainId
     const contractAddress = CONTRACT_MAP(this.isTestnet)[chainId]
     const { node } = community
-
     const MemberProtocolFee = this.getContract(contractAddress.MemberProtocolFee, ABIs.MemberProtocolFee, chainId as SupportedChainIds)
     const MemberTokenomics = this.getContract(contractAddress.MemberTokenomics, ABIs.MemberTokenomics, chainId as SupportedChainIds)
     const { base, commission } = await MemberTokenomics.getMintPrice(node.registry, ONE_ADDRESS, ONE_ADDRESS, keccak256(memberName), 365);
-    const procotolFee = await MemberProtocolFee.getProtocolFee(node.registry, 1);
-    const totalPrice = base.add(commission).add(procotolFee)
-    return totalPrice
+    const protocolFee = await MemberProtocolFee.getProtocolFee(node.registry, 1);
+    return { price: base.add(commission), protocolFee }
   }
 
   /**
@@ -64,11 +62,12 @@ export default class Operator extends SDKBase {
     }
     let totalPrice = mintOptions.mintPrice
     if (!totalPrice) {
-      totalPrice = await this.getMintUserDIDPrice(name, { brandDID: community })
+      const { price, protocolFee } = await this.getMintUserDIDPrice(name, { brandDID: community })
+      totalPrice = price.add(protocolFee)
     }
     const { node, chainId } = community
 
-    const MemberRegistryInterface = this.getContract(node.registryInterface, ABIs.MemberRegistryInterface, chainId as SupportedChainIds)
+    const MemberRegistryInterface = this.getWriteContract(node.registryInterface, ABIs.MemberRegistryInterface, chainId as SupportedChainIds)
     const config = await MemberRegistryInterface.getConfig()
     if (!config.publicMint && !config.holdingMint && !config.signatureMint) {
       throw new Error(`This community "${communityName}" does not support mint currently`);
@@ -87,7 +86,7 @@ export default class Operator extends SDKBase {
         const proofs = await fetchProofOfHolding(config.proofOfHolding, mintTo, chainsIdToNetwork[chainId], this.alchemyKeys[chainsIdToNetwork[chainId]])
         if (proofs) {
           const { holdingContract, holdingTokenId } = proofs
-          const mintTx = await MemberRegistryInterface.holdingMint(mintTo, 365, name, holdingContract, holdingTokenId, { value: totalPrice.toString() })
+          const mintTx = await MemberRegistryInterface.holdingMint(mintTo, 365, memberName, holdingContract, holdingTokenId, { value: totalPrice.toString() })
           if (mintOptions.onTransactionCreated) {
             mintOptions.onTransactionCreated(mintTx)
           }
@@ -100,7 +99,7 @@ export default class Operator extends SDKBase {
       if (config.signatureMint && mintOptions.signature) {
         const commitment = {
           registry: node.registry,
-          node: name,
+          node: memberName,
           owner: mintOptions.owner,
           day: 365,
           deadline: 999999999999,
@@ -144,9 +143,8 @@ export default class Operator extends SDKBase {
 
     const MemberProtocolFee = this.getContract(contractAddress.MemberProtocolFee, ABIs.MemberProtocolFee, chainId as SupportedChainIds)
     const { basePrice, commission } = interfaceNode
-    const procotolFee = await MemberProtocolFee.getProtocolFee(ONE_ADDRESS, 1);
-    const totalPrice = basePrice.add(commission).add(procotolFee)
-    return totalPrice
+    const protocolFee = await MemberProtocolFee.getProtocolFee(ONE_ADDRESS, 1);
+    return { price: basePrice.add(commission), protocolFee }
   }
 
   /**
@@ -172,10 +170,11 @@ export default class Operator extends SDKBase {
     }
     let totalPrice = renewOptions.mintPrice
     if (!totalPrice) {
-      totalPrice = await this.getRenewUserDIDPrice(name, { userDID: member })
+      const { price, protocolFee } = await this.getRenewUserDIDPrice(name, { userDID: member })
+      totalPrice = price.add(protocolFee)
     }
     const { node, chainId } = community
-    const MemberRegistryInterface = this.getContract(node.registryInterface, ABIs.MemberRegistryInterface, chainId as SupportedChainIds)
+    const MemberRegistryInterface = this.getWriteContract(node.registryInterface, ABIs.MemberRegistryInterface, chainId as SupportedChainIds)
     try {
       const tx = await MemberRegistryInterface.renew(keccak256(memberName), 365, { value: totalPrice.toString() });
       if (renewOptions.onTransactionCreated) {
@@ -189,7 +188,7 @@ export default class Operator extends SDKBase {
         originalError: err
       }
     }
-    
+
   }
 
   /**
@@ -213,7 +212,7 @@ export default class Operator extends SDKBase {
     const contractAddress = CONTRACT_MAP(this.isTestnet)[chainId]
     const { node } = community
 
-    const MemberRegistryInterface = this.getContract(node.registryInterface, ABIs.MemberRegistryInterface, chainId as SupportedChainIds)
+    const MemberRegistryInterface = this.getWriteContract(node.registryInterface, ABIs.MemberRegistryInterface, chainId as SupportedChainIds)
     const MemberProtocolFee = this.getContract(contractAddress.MemberProtocolFee, ABIs.MemberProtocolFee, chainId as SupportedChainIds)
     const procotolFee = await MemberProtocolFee.getProtocolFee(node.registry, 4);
 
@@ -230,7 +229,7 @@ export default class Operator extends SDKBase {
         originalError: err
       }
     }
-    
+
   }
 
   /**
@@ -241,25 +240,28 @@ export default class Operator extends SDKBase {
    * @param options.onTransactionCreated - The callback function when the transaction is created
    */
   async setAsPrimary(name: string, options: { onTransactionCreated?: (transaction: object) => any } = {}) {
-    const contractAddress = CONTRACT_MAP(this.isTestnet)[MAIN_CHAIN_ID(this.isTestnet)]
-    const PrimaryRecord = this.getContract(contractAddress.PrimaryRecord, ABIs.PrimaryRecord, MAIN_CHAIN_ID(this.isTestnet))
+    const chainId = MAIN_CHAIN_ID(this.isTestnet)
+    const contractAddress = CONTRACT_MAP(this.isTestnet)[chainId]
+    const PrimaryRecord = this.getWriteContract(contractAddress.PrimaryRecord, ABIs.PrimaryRecord, chainId)
+    const MemberProtocolFee = this.getContract(contractAddress.MemberProtocolFee, ABIs.MemberProtocolFee, chainId)
     const keywordsArr = name.split('.')
     const community = keywordsArr[keywordsArr.length - 1]
     const member = keywordsArr.slice(0, -1).join('.')
     let empty = ethers.utils.formatBytes32String("")
     try {
-      const tx = await PrimaryRecord.setPrimaryRecord(community ? keccak256(community) : empty, member ? keccak256(member) : empty)
+      const procotolFee = await MemberProtocolFee.getProtocolFee(ONE_ADDRESS, 5);
+      const tx = await PrimaryRecord.setPrimaryRecord(community ? keccak256(community) : empty, member ? keccak256(member) : empty, { value: procotolFee.toString() })
       if (options.onTransactionCreated) {
         options.onTransactionCreated(tx)
       }
       const receipt = await tx.wait();
       return receipt
-    } catch(err) {
+    } catch (err) {
       throw {
         message: parseContractError(err),
         originalError: err
       }
     }
-    
+
   }
 }

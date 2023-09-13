@@ -30,7 +30,7 @@ export default class SDKBase {
    * @param options - The options for initializing the SDK
    *
    */
-  constructor({isTestnet, providers, alchemyKeys, signerGenerator}) {
+  constructor({ isTestnet, providers, alchemyKeys, signerGenerator }) {
     this.isTestnet = isTestnet
     this.providers = providers
     this.alchemyKeys = alchemyKeys
@@ -41,11 +41,17 @@ export default class SDKBase {
     const chainsIdToNetwork = CHAINS_ID_TO_NETWORK(this.isTestnet)
     const provider = this.providers[chainsIdToNetwork[chainId]]
     const contract = new ethers.Contract(address, abi, provider)
-    if (!this.signerGenerator[chainsIdToNetwork[chainId]]) {
-      return contract
+    return contract
+  }
+
+  getWriteContract(address: string, abi: any, chainId: SupportedChainIds) {
+    const chainsIdToNetwork = CHAINS_ID_TO_NETWORK(this.isTestnet)
+    const contract = this.getContract(address, abi, chainId)
+    const provider = this.providers[chainsIdToNetwork[chainId]]
+    if (this.signerGenerator[chainsIdToNetwork[chainId]]) {
+      const writeableContract = contract.connect(this.signerGenerator[chainsIdToNetwork[chainId]](provider))
+      return writeableContract
     }
-    const writeableContract = contract.connect(this.signerGenerator[chainsIdToNetwork[chainId]](provider))
-    return writeableContract
   }
 
 
@@ -53,11 +59,12 @@ export default class SDKBase {
    * Set signer for write operation
    *
    * @param signer - ethers.Signer object
-   * @param network - The network that you want to set signer on
    *
    */
-  setSigner(signer: ethers.Signer, network: SupportedChains) {
-    this.signerGenerator[network] =() => signer
+  setSigner(signer: ethers.Signer) {
+    for(let i in this.signerGenerator) {
+      this.signerGenerator[i] = () => signer
+    }
   }
 
   /**
@@ -97,7 +104,7 @@ export default class SDKBase {
     const node = await CommunityRegistry.getNode(keccak256(name))
 
     if (!node.node) {
-      return null
+      return { chainId }
     }
 
     const registryInterface = await MemberRegistryInterfaceFactory.getMemberRegistryInterface(keccak256(name))
@@ -164,27 +171,33 @@ export default class SDKBase {
     }
   }
 
-  async _searchUserDID(name: string): Promise<UserDID | null> {
+  async _searchUserDID(name: string, brandDID?: BrandDID): Promise<UserDID | null> {
     const dotPosition = name.lastIndexOf(".");
     if (dotPosition === -1) {
       throw new Error("The format of DID invalid, the corrent format is `${member}.${community}`");
     }
     const memberName = name.substring(0, dotPosition);
     const communityName = name.substring(dotPosition + 1);
-    const chainId = await this.getBrandDIDChainId(communityName)
-    if (chainId === 0) {
-      return null
-    }
+    let chainId, communityNode, registryInterface, contractAddress
     const contractMap = CONTRACT_MAP(this.isTestnet)
-    const contractAddress = contractMap[chainId]
-    const CommunityRegistry = this.getContract(contractAddress.CommunityRegistry, ABIs.CommunityRegistry, chainId as SupportedChainIds)
-    const MemberRegistryInterfaceFactory = this.getContract(contractAddress.MemberRegistryInterfaceFactory, ABIs.MemberRegistryInterfaceFactory, chainId as SupportedChainIds)
-    const communityNode = await CommunityRegistry.getNode(keccak256(communityName))
+    if (!brandDID || !brandDID.node) {
+      chainId = await this.getBrandDIDChainId(communityName)
+      contractAddress = contractMap[chainId]
+      const CommunityRegistry = this.getContract(contractAddress.CommunityRegistry, ABIs.CommunityRegistry, chainId as SupportedChainIds)
+      const MemberRegistryInterfaceFactory = this.getContract(contractAddress.MemberRegistryInterfaceFactory, ABIs.MemberRegistryInterfaceFactory, chainId as SupportedChainIds)
+      communityNode = await CommunityRegistry.getNode(keccak256(communityName))
+      registryInterface = await MemberRegistryInterfaceFactory.getMemberRegistryInterface(keccak256(communityName))
+    } else  {
+      chainId = brandDID.chainId
+      communityNode = brandDID.node
+      contractAddress = contractMap[chainId]
+      registryInterface = brandDID.node.registryInterface
+    }
+    
     if (!communityNode.node) {
       return null
     }
     const { registry } = communityNode
-    const registryInterface = await MemberRegistryInterfaceFactory.getMemberRegistryInterface(keccak256(communityName))
     const MemberRegistry = this.getContract(registry, ABIs.MemberRegistry, chainId as SupportedChainIds)
     const MemberRegistryInterface = this.getContract(registryInterface, ABIs.MemberRegistryInterface, chainId as SupportedChainIds)
     const memberNameHash = keccak256(memberName)

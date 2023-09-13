@@ -61,11 +61,11 @@ export default class Resolver extends SDKBase {
     if (Number(res.node) && Number(res.baseNode)) {
       const chainId = await this.getBrandDIDChainId(res.baseNode, false)
       const contractAddress = contractMap[chainId]
-      const CommunityRegistry = this.getContract(contractAddress.CommunityRegistry, ABIs.CommunityRegistry, mainChainId)
+      const CommunityRegistry = this.getContract(contractAddress.CommunityRegistry, ABIs.CommunityRegistry, chainId as SupportedChainIds)
       const node = await CommunityRegistry.getNode(res.baseNode)
       if (node.node) {
         const { registry } = node
-        const MemberRegistry = this.getContract(registry, ABIs.MemberRegistry, mainChainId)
+        const MemberRegistry = this.getContract(registry, ABIs.MemberRegistry, chainId as SupportedChainIds)
         const memberNode = await MemberRegistry.getNode(res.node)
         if (memberNode.node) {
           const { tokenId } = memberNode

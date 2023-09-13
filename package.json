@@ -1,10 +1,10 @@
 {
   "name": "@communitiesid/id",
-  "version": "0.1.1",
+  "version": "0.1.6",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "repository":"https://github.com/communities-id/id",
+  "repository": "https://github.com/communities-id/id",
   "scripts": {
     "build": "tsc",
     "test": "jest"

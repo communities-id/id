@@ -24,8 +24,8 @@ export default class Collector extends SDKBase {
    * @param name - The name of the user DID, the format should be `${userDID}.${brandDID}`
    *
    */
-  async searchUserDID(name: string): Promise<UserDID | null> {
-    return await this._searchUserDID(name)
+  async searchUserDID(name: string, brandDID?: BrandDID): Promise<UserDID | null> {
+    return await this._searchUserDID(name, brandDID)
   }
 
   /**
@@ -89,7 +89,7 @@ export default class Collector extends SDKBase {
   async getAllUserDIDsOwnedByBrand(name: string, registry?: string, chain?: SupportedChains): Promise<object[]> {
     if (!registry || !chain) {
       const commnuityInfo = await this.searchBrandDID(name)
-      if (!commnuityInfo) {
+      if (!commnuityInfo || !commnuityInfo.node) {
         return null
       }
       const { node, chainId } = commnuityInfo

@@ -54,11 +54,11 @@ export type CommunitiesIDInput = mainnetCommunitiesIDInput | testnetCommunitiesI
 
 export type BrandDID = {
   chainId: number
-  state: number
-  owner: string
-  pool: BigNumber
-  totalSupply: number
-  node: {
+  state?: number
+  owner?: string
+  pool?: BigNumber
+  totalSupply?: number
+  node?: {
     createTime: number
     expireTime: number
     node: string // community name
@@ -67,7 +67,7 @@ export type BrandDID = {
     registTime: number // community regist time, mutable time
     tokenId: number // community token id
   },
-  tokenUri: {
+  tokenUri?: {
     name: string
     brand_color: string
     brand_image: string
@@ -76,7 +76,7 @@ export type BrandDID = {
     image: string // avatar
     attributes: []
   },
-  priceModel: {
+  priceModel?: {
     commissionRate: BigNumber
     mode: number
     a: BigNumber
@@ -84,7 +84,7 @@ export type BrandDID = {
     c: BigNumber
     d: BigNumber
   },
-  config: {
+  config?: {
     imageBaseURI: string
     nodeValidator: string,
     signatureMint: boolean,

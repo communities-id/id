@@ -33,13 +33,22 @@ const sdk = new CommunitiesID(OPTIONS)
 const { resolver, collector, operator } = sdk
 const ADDRESS = '0x78DC4D67310d7963754799393510b9940F99230f'
 
-test("should searchBrandDID works well", async () => {
-  const res = await collector.searchBrandDID('did')
+test.only("should searchBrandDID works well", async () => {
+  const res = await collector.searchBrandDID('testpolygon')
   console.log(res)
 });
 
 test("should searchUserDID works well", async () => {
   const res = await collector.searchUserDID('a.did')
+  console.log(res)
+});
+
+test("should searchUserDID with brandDID works well", async () => {
+  const brandDID = await collector.searchBrandDID('did')
+  if (!brandDID) {
+    return
+  }
+  const res = await collector.searchUserDID('a.did', brandDID)
   console.log(res)
 });
 
