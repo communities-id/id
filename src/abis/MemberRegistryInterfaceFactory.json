@@ -5,6 +5,11 @@
         "components": [
           {
             "internalType": "address",
+            "name": "upstream",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
             "name": "communityRegistry",
             "type": "address"
           },
@@ -120,6 +125,11 @@
         "components": [
           {
             "internalType": "address",
+            "name": "upstream",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
             "name": "communityRegistry",
             "type": "address"
           },
@@ -224,6 +234,11 @@
     "inputs": [
       {
         "components": [
+          {
+            "internalType": "address",
+            "name": "upstream",
+            "type": "address"
+          },
           {
             "internalType": "address",
             "name": "communityRegistry",
