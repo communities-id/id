@@ -1,85 +1,120 @@
-// import CommunitiesID, { CommunitiesIDInput } from "../src/index";
-// require('dotenv').config()
+import { ethers } from "ethers";
+import CommunitiesID, { CommunitiesIDInput } from "../src/index";
+require('dotenv').config()
 
-// const OPTIONS: CommunitiesIDInput = {
-//   Ethereum: {
-//     RPCUrl: process.env.MAINNET_RPC_URL || '',
-//     alchemyKey: process.env.MAINNET_ALCHEMY_KEY || '',
-//   },
-//   BSC: {
-//     RPCUrl: process.env.BINANCE_RPC_URL || '',
-//     alchemyKey: '',
-//   },
-//   arbitrum: {
-//     RPCUrl: process.env.ARBITRUM_RPC_URL || ''
-//   }
-// }
-
-// const ADDRESS = '0x374f09F365C624D508E6cE78654E0Ee9FCDFb783'
-
-// const sdk = new CommunitiesID(OPTIONS)
-// const { resolver, collector } = sdk
+const OPTIONS: CommunitiesIDInput = {
+  isTestnet: false,
+  openseaKey: process.env.OPENSEA_KEY || '',
+  Ethereum: {
+    RPCUrl: process.env.RPC_URL || ''
+  },
+  BSC: {
+    RPCUrl: process.env.RPC_URL || ''
+  },
+  arbitrum: {
+    RPCUrl: process.env.RPC_URL || ''
+  }
+}
 
 
-// test("should searchBrandDID works well", async () => {
-//   const res = await collector.searchBrandDID('gm')
-//   if (res) {
-//     console.log(res.node)
-//   }
-// });
+const sdk = new CommunitiesID(OPTIONS)
+const { resolver, collector, operator } = sdk
+const ADDRESS = '0xca07bD081A9cc15b45D3Fe2BbE7762B923Ca4B29'
 
-// test("should searchUserDID works well", async () => {
-//   const res = await collector.searchUserDID('rain.gm')
-//   if (res) {
-//     console.log(res.node)
-//   }
-// });
+test("should searchBrandDID works well", async () => {
+  const res = await collector.searchBrandDID('jtest1')
+  console.log(res)
+});
 
-// test("should resolveName works well", async () => {
-//   const res = await resolver.resolveName('rain.gm')
-//   console.log(res)
-// });
+test("should searchUserDID works well", async () => {
+  const res = await collector.searchUserDID('a.did')
+  console.log(res)
+});
 
-// test("should resolveName with ens/sid works well", async () => {
-//   const ensAddress = await resolver.resolveName('laruence.eth')
-//   const bnbAddress = await resolver.resolveName('test.bnb')
-//   const arbAddress = await resolver.resolveName('test.arb')
-//   console.log(ensAddress, bnbAddress, arbAddress)
-// });
+test("should searchUserDID with brandDID works well", async () => {
+  const brandDID = await collector.searchBrandDID('did')
+  if (!brandDID) {
+    return
+  }
+  const res = await collector.searchUserDID('a.did', brandDID)
+  console.log(res)
+});
 
-// test("should lookupAddress works well", async () => {
-//   const res = await resolver.lookupAddress(ADDRESS)
-//   console.log(res)
-// });
+test("should resolveName works well", async () => {
+  const res = await resolver.resolveName('a.did')
+  console.log(res)
+});
 
-// test.only("should lookupAddress with ens works well", async () => {
-//   const ensName = await resolver.lookupAddress('0xb389b8cAaEDCD0231780a30E5b6AEc6b6CEb970F')
-//   const bnbName = await resolver.lookupAddress('0xB76FBF5A2b580896057880B9B99de4849cc11b67')
-//   const arbName = await resolver.lookupAddress('0xB522E32b6B49363f420d2546E13479c05fF27201')
-//   console.log(ensName, bnbName, arbName)
-// });
+test("should lookupAddress works well", async () => {
+  const res = await resolver.lookupAddress(ADDRESS)
+  console.log(res)
+});
 
-// test("should getAllBrandDIDs works well", async () => {
-//   const res: any[] = await collector.getAllBrandDIDs("Ethereum")
-//   console.log(res.map(v => v.title))
-// });
+test("should getAllBrandDIDs works well", async () => {
+  const res: any[] = await collector.getAllBrandDIDs(5)
+  console.log(res.map(v => v.name))
+});
 
-// test("should getAllBrandDIDsOwnedByAddress works well", async () => {
-//   const res: any[] = await collector.getAllBrandDIDsOwnedByAddress(ADDRESS, 'Ethereum')
-//   console.log(res.map(v => v.title))
-// });
+test("should getAllBrandDIDsOwnedByAddress works well", async () => {
+  const res: any[] = await collector.getAllBrandDIDsOwnedByAddress(ADDRESS, 5)
+  console.log(res.map(v => v.name))
+});
 
-// test("should getAllUserDIDsOwnedByAddress works well", async () => {
-//   const res: any[] = await collector.getAllUserDIDsOwnedByAddress(ADDRESS, 'Ethereum')
-//   console.log(res.map(v => v.metadata && v.metadata.name))
-// });
+test.only("should getAllUserDIDsOwnedByAddress works well", async () => {
+  const res: any[] = await collector.getAllUserDIDsOwnedByAddress(ADDRESS, 5)
+  console.log(res.map(v => v.name))
+});
 
-// test("should getAllUserDIDsOwnedByBrand works well", async () => {
-//   const res: any[] = await collector.getAllUserDIDsOwnedByBrand('gm')
-//   console.log(res.map(v => v.metadata && v.metadata.name))
-// });
+test.only("should getAllBrandDIDsJoinedByAddress works well", async () => {
+  const res: any[] = await collector.getAllBrandDIDsJoinedByAddress(ADDRESS, 5)
+  console.log(res)
+});
 
-// test("should getAllUserDIDsOwnedByBrand with registry and chain works well", async () => {
-//   const res: any[] = await collector.getAllUserDIDsOwnedByBrand('', '0x6bac3711576a895371ccf5b87c425de7606cf021', 'Ethereum')
-//   console.log(res.map(v => v.metadata && v.metadata.name))
-// });
+test("should getAllUserDIDsOwnedByBrand works well", async () => {
+  const res: any[] = await collector.getAllUserDIDsOwnedByBrand('jtest2')
+  console.log(res.map(v => v.name))
+});
+
+test("should getAllUserDIDsOwnedByBrand with registry and chain works well", async () => {
+  const res: any[] = await collector.getAllUserDIDsOwnedByBrand('', '0x6c3c46ccd0382653346fdd9912e9764876718060', 5)
+  console.log(res.map(v => v.name))
+});
+
+test('should getMintUserDIDPrice works well', async() => {
+  const res = await operator.getMintUserDIDPrice('a.goerlitest1')
+  console.log(res)
+})
+
+test('should mintUserDID works well', async() => {
+  try {
+    const res = await operator.mintUserDID('c.did', ADDRESS, {
+      onTransactionCreated: tx => console.log(tx)
+    })
+    return res
+  } catch(e) {
+    console.log(e.message)
+  }
+})
+
+test('should renewUserDID works well', async() => {
+  try {
+    const res = await operator.renewUserDID('c.did', {
+      onTransactionCreated: tx => console.log(tx)
+    })
+    return res
+  } catch(e) {
+    console.log(e.message)
+  }
+})
+
+
+test('should setAsPrimary works well', async() => {
+  try {
+    const res = await operator.setAsPrimary('c.did', {
+      onTransactionCreated: tx => console.log(tx)
+    })
+    return res
+  } catch(e) {
+    console.log(e)
+  }
+})

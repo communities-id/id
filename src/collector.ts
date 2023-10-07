@@ -1,7 +1,5 @@
 import SDKBase from "./base";
-import { BrandDID, UserDID, SupportedChains } from "./shared/types";
-import { fetchAllCommunities, fetchAllCommunitiesOfAddress, fetchAllMembersOfAddress, fetchAllMembersOfCommunity } from './shared/alchemy'
-import { CHAINS_ID_TO_NETWORK} from "./shared/constant";
+import { BrandDID, UserDID, SupportedChainIds } from "./shared/types";
 
 export default class Collector extends SDKBase {
   constructor(options) {
@@ -31,10 +29,10 @@ export default class Collector extends SDKBase {
   /**
    * Get all brand DIDs in specific chain
    *
-   * @param chain - The chain that you want to get brand DIDs
+   * @param chainId - The chain ID that you want to get brand DIDs
    */
-  async getAllBrandDIDs(chain: SupportedChains): Promise<object[]> {
-    const res = await fetchAllCommunities(chain, this.alchemyKeys[chain], this.isTestnet)
+  async getAllBrandDIDs(chainId: SupportedChainIds): Promise<object[]> {
+    const res = await this.openseaSDK.fetchAllCommunities(chainId)
     return res
   }
 
@@ -42,11 +40,11 @@ export default class Collector extends SDKBase {
    * Get all brand DIDs owned by an address in specific chain
    *
    * @param address - The address you want to get brand DIDs
-   * @param chain - The chain that you want to get brand DIDs
+   * @param chainId - The chain ID that you want to get brand DIDs
    *
    */
-  async getAllBrandDIDsOwnedByAddress(address: string, chain: SupportedChains): Promise<object[]> {
-    const res = await fetchAllCommunitiesOfAddress(address, chain, this.alchemyKeys[chain], this.isTestnet)
+  async getAllBrandDIDsOwnedByAddress(address: string, chainId: SupportedChainIds): Promise<object[]> {
+    const res = await this.openseaSDK.fetchAllCommunitiesOfAddress(address, chainId)
     return res
   }
 
@@ -54,11 +52,11 @@ export default class Collector extends SDKBase {
    * Get all user DIDs owned by an address in specific chain
    *
    * @param address - The address you want to get user DIDs
-   * @param chain - The chain that you want to get user DIDs
+   * @param chainID - The chain ID that you want to get user DIDs
    *
    */
-  async getAllUserDIDsOwnedByAddress(address: string, chain: SupportedChains): Promise<object[]> {
-    const res = await fetchAllMembersOfAddress(address, chain, this.alchemyKeys[chain])
+  async getAllUserDIDsOwnedByAddress(address: string, chainId: SupportedChainIds): Promise<object[]> {
+    const res = await this.openseaSDK.fetchAllMembersOfAddress(address, chainId)
     return res
   }
 
@@ -66,12 +64,12 @@ export default class Collector extends SDKBase {
    * Get all brand DIDs joined by an address in specific chain
    *
    * @param address - The address you want to get brand DIDs
-   * @param chain - The chain that you want to get brand DIDs
+   * @param chainID - The chain ID that you want to get brand DIDs
    *
    */
-  async getAllBrandDIDsJoinedByAddress(address: string, chain: SupportedChains): Promise<string[]> {
-    const members = await fetchAllMembersOfAddress(address, chain, this.alchemyKeys[chain])
-    const communityNames = members.map((member) => member.title.split('.')[1])
+  async getAllBrandDIDsJoinedByAddress(address: string, chainID: SupportedChainIds): Promise<string[]> {
+    const members = await this.openseaSDK.fetchAllMembersOfAddress(address, chainID)
+    const communityNames = members.map((member) => member.name.split('.')[1])
     const nameMap = {}
     communityNames.forEach((name) => {
       nameMap[name] = true
@@ -79,26 +77,26 @@ export default class Collector extends SDKBase {
     return Object.keys(nameMap)
   }
 
-
   /**
    * Get all user DIDs under specific brand DID
    *
-   * @param name - The name owned by brand DID
+   * @param name - The name owned by brand DID, if pass registry and chainID, this parameter will be ignored
+   * @param registry - The registry address of this brand DID
+   * @param chainID - The chain ID this brand DID is on
    *
    */
-  async getAllUserDIDsOwnedByBrand(name: string, registry?: string, chain?: SupportedChains): Promise<object[]> {
-    if (!registry || !chain) {
+  async getAllUserDIDsOwnedByBrand(name: string, registry?: string, chainID?: SupportedChainIds): Promise<object[]> {
+    if (!registry || !chainID) {
       const commnuityInfo = await this.searchBrandDID(name)
       if (!commnuityInfo || !commnuityInfo.node) {
         return null
       }
       const { node, chainId } = commnuityInfo
-      const chain = CHAINS_ID_TO_NETWORK(this.isTestnet)[chainId]
-      const res = await fetchAllMembersOfCommunity(node.registry, chain, this.alchemyKeys[chain])
+      const res = await this.openseaSDK.fetchAllMembersOfCommunity(node.registry, chainId as SupportedChainIds)
       return res
     }
 
-    const res = await fetchAllMembersOfCommunity(registry, chain, this.alchemyKeys[chain])
+    const res = await this.openseaSDK.fetchAllMembersOfCommunity(registry, chainID)
     return res
   }
 }

@@ -4,21 +4,18 @@ require('dotenv').config()
 
 const OPTIONS: CommunitiesIDInput = {
   isTestnet: true,
+  openseaKey: process.env.OPENSEA_KEY || '',
   Goerli: {
     RPCUrl: process.env.GOERLI_RPC_URL || '',
-    alchemyKey: process.env.GOERLI_ALCHEMY_KEY || '',
   },
   'Polygon Mumbai': {
     RPCUrl: process.env.MUMBAI_RPC_URL || '',
-    alchemyKey: process.env.MUMBAI_ALCHEMY_KEY || '',
   },
   'Base Goerli Testnet': {
     RPCUrl: process.env.BASE_RPC_URL || '',
-    alchemyKey: process.env.BASE_ALCHEMY_KEY || '',
   },
   'Optimism Goerli Testnet': {
     RPCUrl: process.env.OP_RPC_URL || '',
-    alchemyKey: process.env.OP_ALCHEMY_KEY || '',
   }
 }
 
@@ -39,9 +36,9 @@ const OPTIONS: CommunitiesIDInput = {
 const sdk = new CommunitiesID(OPTIONS)
 // const sdk = new CommunitiesIDResolver(WRITEABLE_OPTIONS)
 const { resolver, collector, operator } = sdk
-const ADDRESS = '0x78DC4D67310d7963754799393510b9940F99230f'
+const ADDRESS = '0xca07bD081A9cc15b45D3Fe2BbE7762B923Ca4B29'
 
-test.only("should searchBrandDID works well", async () => {
+test("should searchBrandDID works well", async () => {
   const res = await collector.searchBrandDID('jtest1')
   console.log(res)
 });
@@ -71,28 +68,33 @@ test("should lookupAddress works well", async () => {
 });
 
 test("should getAllBrandDIDs works well", async () => {
-  const res: any[] = await collector.getAllBrandDIDs("Goerli")
-  console.log(res.map(v => v.title))
+  const res: any[] = await collector.getAllBrandDIDs(5)
+  console.log(res.map(v => v.name))
 });
 
 test("should getAllBrandDIDsOwnedByAddress works well", async () => {
-  const res: any[] = await collector.getAllBrandDIDsOwnedByAddress(ADDRESS, 'Goerli')
-  console.log(res.map(v => v.title))
+  const res: any[] = await collector.getAllBrandDIDsOwnedByAddress(ADDRESS, 5)
+  console.log(res.map(v => v.name))
 });
 
 test("should getAllUserDIDsOwnedByAddress works well", async () => {
-  const res: any[] = await collector.getAllUserDIDsOwnedByAddress(ADDRESS, 'Goerli')
-  console.log(res.map(v => v.metadata && v.metadata.name))
+  const res: any[] = await collector.getAllUserDIDsOwnedByAddress(ADDRESS, 5)
+  console.log(res.map(v => v.name))
+});
+
+test("should getAllBrandDIDsJoinedByAddress works well", async () => {
+  const res: any[] = await collector.getAllBrandDIDsJoinedByAddress(ADDRESS, 5)
+  console.log(res)
 });
 
 test("should getAllUserDIDsOwnedByBrand works well", async () => {
-  const res: any[] = await collector.getAllUserDIDsOwnedByBrand('did')
-  console.log(res.map(v => v.metadata && v.metadata.name))
+  const res: any[] = await collector.getAllUserDIDsOwnedByBrand('jtest2')
+  console.log(res.map(v => v.name))
 });
 
 test("should getAllUserDIDsOwnedByBrand with registry and chain works well", async () => {
-  const res: any[] = await collector.getAllUserDIDsOwnedByBrand('', '0x5824C18c5f36A898b93F458BA5345fD25d039076', 'Goerli')
-  console.log(res.map(v => v.metadata && v.metadata.name))
+  const res: any[] = await collector.getAllUserDIDsOwnedByBrand('', '0x6c3c46ccd0382653346fdd9912e9764876718060', 5)
+  console.log(res.map(v => v.name))
 });
 
 test('should getMintUserDIDPrice works well', async() => {

@@ -22,15 +22,20 @@ export type SupportedChains = keyof typeof ChainIDs | keyof typeof TestnetChainI
 
 export type mainnetCommunitiesIDInput = Record<keyof typeof ChainIDs, {
   RPCUrl: string
-  alchemyKey: string
   generateSigner?: (provider: ethers.providers.Provider) => ethers.Signer
-}> & { arbitrum: { RPCUrl: string } } & { isTestnet?: false }
+}> & { 
+  isTestnet?: false,
+  openseaKey: string,
+  arbitrum: { RPCUrl: string }
+}
 
 export type testnetCommunitiesIDInput = Record<keyof typeof TestnetChainIDs, {
   RPCUrl: string
-  alchemyKey: string
   generateSigner?: (provider: ethers.providers.Provider) => ethers.Signer
-}> & { isTestnet: true }
+}> & {
+  openseaKey: string,
+  isTestnet: true
+}
 
 export type CommunitiesIDInput = mainnetCommunitiesIDInput | testnetCommunitiesIDInput
 

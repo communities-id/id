@@ -4,7 +4,6 @@ import SDKBase from "./base";
 import { keccak256 } from "./shared/utils";
 import { SupportedChainIds } from "./shared/types";
 
-
 export default class Resolver extends SDKBase {
   constructor(options) {
     super(options)

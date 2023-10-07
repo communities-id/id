@@ -2,12 +2,13 @@ import { ethers } from "ethers";
 import { keccak256, parseTokenURI } from "./shared/utils";
 import { BrandDID, UserDID, SupportedChainIds, SupportedChains, TestnetChainIDs } from "./shared/types";
 import { CHAINS_ID_TO_NETWORK, CONTRACT_MAP, MAIN_CHAIN_ID, ABIs, ONE_ADDRESS } from "./shared/constant";
+import OpenseaSDK from "./shared/opensea";
 
 export default class SDKBase {
-  version: string;
-  isTestnet: boolean;
+  version: string
+  isTestnet: boolean
+  openseaSDK: OpenseaSDK;
   providers: Record<SupportedChains | 'arbitrum', ethers.providers.JsonRpcProvider>
-  alchemyKeys: Record<SupportedChains, string>;
   signerGenerator: Record<SupportedChains, (provider: ethers.providers.Provider) => ethers.Signer>
 
   /**
@@ -16,11 +17,11 @@ export default class SDKBase {
    * @param options - The options for initializing the SDK
    *
    */
-  constructor({ isTestnet, providers, alchemyKeys, signerGenerator }) {
+  constructor({ isTestnet, providers, openseaKey, signerGenerator }) {
     this.isTestnet = isTestnet
     this.providers = providers
-    this.alchemyKeys = alchemyKeys
     this.signerGenerator = signerGenerator
+    this.openseaSDK = new OpenseaSDK(openseaKey, this.isTestnet)
   }
 
   getContract(address: string, abi: any, chainId: SupportedChainIds) {

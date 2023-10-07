@@ -1,6 +1,5 @@
 import { ABIs, CHAINS_ID_TO_NETWORK, CONTRACT_MAP, MAIN_CHAIN_ID, ONE_ADDRESS } from "./shared/constant";
 import SDKBase from "./base";
-import { fetchProofOfHolding } from "./shared/alchemy";
 import { BurnUserDIDOptions, BrandDID, UserDID, MintUserDIDOptions, RenewUserDIDOptions, SupportedChainIds } from "./shared/types";
 import { keccak256, parseContractError } from "./shared/utils";
 import { ethers } from "ethers";
@@ -83,7 +82,7 @@ export default class Operator extends SDKBase {
       }
       if (config.holdingMint || config.proofOfHolding.length > 0) {
         const chainsIdToNetwork = CHAINS_ID_TO_NETWORK(this.isTestnet)
-        const proofs = await fetchProofOfHolding(config.proofOfHolding, mintTo, chainsIdToNetwork[chainId], this.alchemyKeys[chainsIdToNetwork[chainId]])
+        const proofs = await this.openseaSDK.fetchProofOfHolding(config.proofOfHolding, mintTo, chainId as SupportedChainIds)
         if (proofs) {
           const { holdingContract, holdingTokenId } = proofs
           const mintTx = await MemberRegistryInterface.holdingMint(mintTo, 365, memberName, holdingContract, holdingTokenId, { value: totalPrice.toString() })
