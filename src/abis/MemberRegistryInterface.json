@@ -68,6 +68,11 @@
   },
   {
     "inputs": [],
+    "name": "ErrNativeTransferFailed",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "ErrNoInterfaceFee",
     "type": "error"
   },
@@ -99,6 +104,11 @@
   {
     "inputs": [],
     "name": "ErrSignatureMintDisabled",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ErrUnexpectedDays",
     "type": "error"
   },
   {
@@ -201,6 +211,30 @@
     "name": "burn",
     "outputs": [],
     "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "nodehash_",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "operator_",
+        "type": "address"
+      }
+    ],
+    "name": "getBurnPrice",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -353,6 +387,16 @@
             "internalType": "address",
             "name": "coin",
             "type": "address"
+          },
+          {
+            "internalType": "enum MemberRegistryInterface.SequenceMode",
+            "name": "sequenceMode",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint256",
+            "name": "durationUnit",
+            "type": "uint256"
           }
         ],
         "internalType": "struct MemberRegistryInterface.Config",
@@ -370,6 +414,45 @@
       {
         "internalType": "uint256",
         "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "nodehash_",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "operator_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "owner_",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "days_",
+        "type": "uint256"
+      }
+    ],
+    "name": "getMintPrice",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "basePrice",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "commission",
         "type": "uint256"
       }
     ],
@@ -426,6 +509,45 @@
         "internalType": "struct IMemberRegistryInterface.NodeInfo",
         "name": "",
         "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "nodehash_",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "operator_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "owner_",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "days_",
+        "type": "uint256"
+      }
+    ],
+    "name": "getRenewPrice",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "base",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "commission",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -658,6 +780,16 @@
             "internalType": "address",
             "name": "coin",
             "type": "address"
+          },
+          {
+            "internalType": "enum MemberRegistryInterface.SequenceMode",
+            "name": "sequenceMode",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint256",
+            "name": "durationUnit",
+            "type": "uint256"
           }
         ],
         "internalType": "struct MemberRegistryInterface.Config",

@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { CommunitiesIDInput, mainnetCommunitiesIDInput } from "./shared/types";
+import { CommunitiesIDInput, SupportedChains, mainnetCommunitiesIDInput } from "./shared/types";
 import Resolver from "./resolver";
 import Collector from "./collector";
 import Operator from "./operator";
@@ -7,23 +7,9 @@ import Operator from "./operator";
 export default class CommunitiesID {
   version: string;
   isTestnet: boolean;
-  providers: {
-    mainnet?: ethers.providers.JsonRpcProvider,
-    binance?: ethers.providers.JsonRpcProvider,
-    arbitrum?: ethers.providers.JsonRpcProvider,
-    goerli?: ethers.providers.JsonRpcProvider,
-    mumbai?: ethers.providers.JsonRpcProvider,
-  };
-  alchemyKeys: {
-    mainnet?: string,
-    goerli?: string,
-    mumbai?: string,
-  };
-  signerGenerator: {
-    mainnet?: (provider: ethers.providers.Provider) => ethers.Signer,
-    goerli?: (provider: ethers.providers.Provider) => ethers.Signer,
-    mumbai?: (provider: ethers.providers.Provider) => ethers.Signer,
-  };
+  providers: Partial<Record<SupportedChains | 'arbitrum', ethers.providers.JsonRpcProvider>>
+  alchemyKeys: Partial<Record<SupportedChains, string>>
+  signerGenerator: Partial<Record<SupportedChains, (provider: ethers.providers.Provider) => ethers.Signer>>
   resolver: Resolver;
   collector: Collector;
   operator: Operator;
@@ -35,36 +21,18 @@ export default class CommunitiesID {
    *
    */
   constructor(options: CommunitiesIDInput) {
-    this.version = "0.0.1";
-    if (options.isTestnet) {
-      this.isTestnet = true
-      const { goerli, mumbai } = options
-      this.providers = {
-        goerli: goerli.RPCUrl && new ethers.providers.JsonRpcProvider(goerli.RPCUrl),
-        mumbai: mumbai.RPCUrl && new ethers.providers.JsonRpcProvider(mumbai.RPCUrl),
+    this.version = "0.2.1";
+    this.isTestnet = !!options.isTestnet
+    this.providers = {}
+    this.alchemyKeys = {}
+    this.signerGenerator = {}
+    for(let i in options) {
+      if (i === 'isTestnet') {
+        continue
       }
-      this.alchemyKeys = {
-        goerli: goerli.alchemyKey,
-        mumbai: mumbai.alchemyKey
-      }
-      this.signerGenerator = {
-        goerli: goerli.generateSigner,
-        mumbai: mumbai.generateSigner
-      }
-    } else {
-      this.isTestnet = false
-      const { mainnet, binance, arbitrum } = options as mainnetCommunitiesIDInput
-      this.providers = {
-        mainnet: mainnet.RPCUrl && new ethers.providers.JsonRpcProvider(mainnet.RPCUrl),
-        binance: binance.RPCUrl && new ethers.providers.JsonRpcProvider(binance.RPCUrl),
-        arbitrum: arbitrum.RPCUrl && new ethers.providers.JsonRpcProvider(arbitrum.RPCUrl),
-      }
-      this.alchemyKeys = {
-        mainnet: mainnet.alchemyKey,
-      }
-      this.signerGenerator = {
-        mainnet: mainnet.generateSigner,
-      }
+      this.providers[i] = options[i].RPCUrl && new ethers.providers.JsonRpcProvider(options[i].RPCUrl)
+      this.alchemyKeys[i] = options[i].alchemyKey
+      this.signerGenerator[i] = options[i].signerGenerator
     }
 
     this.init()

@@ -1,28 +1,14 @@
 import { ethers } from "ethers";
 import { keccak256, parseTokenURI } from "./shared/utils";
-import { BrandDID, UserDID, SupportedChainIds, SupportedChains } from "./shared/types";
+import { BrandDID, UserDID, SupportedChainIds, SupportedChains, TestnetChainIDs } from "./shared/types";
 import { CHAINS_ID_TO_NETWORK, CONTRACT_MAP, MAIN_CHAIN_ID, ABIs, ONE_ADDRESS } from "./shared/constant";
 
 export default class SDKBase {
   version: string;
   isTestnet: boolean;
-  providers: {
-    mainnet?: ethers.providers.JsonRpcProvider,
-    binance?: ethers.providers.JsonRpcProvider,
-    arbitrum?: ethers.providers.JsonRpcProvider,
-    goerli?: ethers.providers.JsonRpcProvider,
-    mumbai?: ethers.providers.JsonRpcProvider,
-  };
-  alchemyKeys: {
-    mainnet?: string,
-    goerli?: string,
-    mumbai?: string,
-  };
-  signerGenerator: {
-    mainnet?: (provider: ethers.providers.Provider) => ethers.Signer,
-    goerli?: (provider: ethers.providers.Provider) => ethers.Signer,
-    mumbai?: (provider: ethers.providers.Provider) => ethers.Signer,
-  };
+  providers: Record<SupportedChains | 'arbitrum', ethers.providers.JsonRpcProvider>
+  alchemyKeys: Record<SupportedChains, string>;
+  signerGenerator: Record<SupportedChains, (provider: ethers.providers.Provider) => ethers.Signer>
 
   /**
    * Init the Communities ID resolver SDK
@@ -54,7 +40,6 @@ export default class SDKBase {
     }
   }
 
-
   /**
    * Set signer for write operation
    *
@@ -77,10 +62,10 @@ export default class SDKBase {
   async getBrandDIDChainId(name: string, needHash: boolean = true) {
     const contractMap = CONTRACT_MAP(this.isTestnet)
     const mainChainId = MAIN_CHAIN_ID(this.isTestnet)
-    const LZCommunityRegistryInterface = this.getContract(contractMap[mainChainId].LZCommunityRegistryInterface, ABIs.LZCommunityRegistryInterface, mainChainId);
+    const RelayerCommunityRegistryInterface = this.getContract(contractMap[mainChainId].RelayerCommunityRegistryInterface, ABIs.RelayerCommunityRegistryInterface, mainChainId);
     const CommunityRegistry = this.getContract(contractMap[mainChainId].CommunityRegistry, ABIs.CommunityRegistry, mainChainId);
     const labelHash = needHash ? keccak256(name) : name
-    const chainId = await LZCommunityRegistryInterface.getOmniNodeChainId(labelHash)
+    const chainId = await RelayerCommunityRegistryInterface.getOmniNodeChainId(labelHash)
     const node = await CommunityRegistry.getNode(labelHash)
     if (!Number(chainId) && node.node) {
       return mainChainId
@@ -167,6 +152,8 @@ export default class SDKBase {
         proofOfHolding: config.proofOfHolding,
         signer: config.signer,
         coin: config.coin,
+        sequenceMode: config.sequenceMode,
+        durationUnit: Number(config.durationUnit)
       }
     }
   }

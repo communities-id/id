@@ -88,7 +88,7 @@ export default class Resolver extends SDKBase {
   }
 
   async _resolveNameFromEns(name: string) {
-    const provider = this.providers.mainnet
+    const provider = this.providers.Ethereum
     const ensName = await provider.resolveName(name);
     return ensName
   }
@@ -96,9 +96,9 @@ export default class Resolver extends SDKBase {
   async _resolveNameFromSID(name: string) {
     const nameArr = name.split('.')
     const communityName = nameArr[nameArr.length - 1]
-    if (communityName === 'bnb' && this.providers.binance) {
+    if (communityName === 'bnb' && this.providers.BSC) {
       try {
-        const sid = new SID({ provider: this.providers.binance, sidAddress: getSidAddress(97) })
+        const sid = new SID({ provider: this.providers.BSC, sidAddress: getSidAddress(97) })
         return await sid.name(name).getAddress()
       } catch (e) { }
     }
@@ -112,16 +112,16 @@ export default class Resolver extends SDKBase {
   }
 
   async _lookupAddressFromENS(address: string) {
-    const provider = this.providers.mainnet
+    const provider = this.providers.Ethereum
     const ensAddress = await provider.lookupAddress(address);
     return ensAddress
   }
 
   async _lookupAddressFromSID(address: string) {
     let bnbName = { name: null }, arbName = { name: null }
-    if (this.providers.binance) {
+    if (this.providers.BSC) {
       try {
-        const sid = new SID({ provider: this.providers.binance, sidAddress: getSidAddress(97) })
+        const sid = new SID({ provider: this.providers.BSC, sidAddress: getSidAddress(97) })
         bnbName = await sid.getName(address)
       } catch (e) { }
     }

@@ -33,10 +33,10 @@ export default class Operator extends SDKBase {
     const contractAddress = CONTRACT_MAP(this.isTestnet)[chainId]
     const { node } = community
     const MemberProtocolFee = this.getContract(contractAddress.MemberProtocolFee, ABIs.MemberProtocolFee, chainId as SupportedChainIds)
-    const MemberTokenomics = this.getContract(contractAddress.MemberTokenomics, ABIs.MemberTokenomics, chainId as SupportedChainIds)
-    const { base, commission } = await MemberTokenomics.getMintPrice(node.registry, ONE_ADDRESS, ONE_ADDRESS, keccak256(memberName), 365);
+    const MemberRegistryInterface = this.getContract(node.registryInterface, ABIs.MemberRegistryInterface, chainId as SupportedChainIds)
+    const { basePrice, commission } = await MemberRegistryInterface.getMintPrice(keccak256(memberName), ONE_ADDRESS, ONE_ADDRESS, 365);
     const protocolFee = await MemberProtocolFee.getProtocolFee(node.registry, 1);
-    return { price: base.add(commission), protocolFee }
+    return { price: basePrice.add(commission), protocolFee }
   }
 
   /**

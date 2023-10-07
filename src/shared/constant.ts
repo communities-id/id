@@ -4,8 +4,8 @@ import CommunityRegistryInterface from '../abis/CommunityRegistryInterface.json'
 import CommunityTokenURI from '../abis/CommunityTokenURI.json'
 import CommunityTokenURIValidator from '../abis/CommunityTokenURIValidator.json'
 import ERC20 from '../abis/erc20.json'
-import LZCommunityRegistryInterface from '../abis/LZCommunityRegistryInterface.json'
-import LZReplicaCommunityRegistryInterface from '../abis/LZReplicaCommunityRegistryInterface.json'
+import RelayerCommunityRegistryInterface from '../abis/RelayerCommunityRegistryInterface.json'
+import RelayerReplicaCommunityRegistryInterface from '../abis/RelayerReplicaCommunityRegistryInterface.json'
 import MemberProtocolFee from '../abis/MemberProtocolFee.json'
 import MemberRegistry from '../abis/MemberRegistry.json'
 import MemberRegistryInterface from '../abis/MemberRegistryInterface.json'
@@ -16,18 +16,20 @@ import MemberTokenURI from '../abis/MemberTokenURI.json'
 import PrimaryRecord from '../abis/PrimaryRecord.json'
 import SubNodeValidator from '../abis/SubNodeValidator.json'
 import TextRecord from '../abis/TextRecord.json'
+import { ChainIDs, TestnetChainIDs } from './types'
 
 export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 export const ONE_ADDRESS = "0x0000000000000000000000000000000000000001";
 
 export const MAIN_CHAIN = isTestnet => isTestnet ? 'goerli' : 'mainnet'
-export const MAIN_CHAIN_ID = isTestnet => isTestnet ? 10121 : 101
+export const MAIN_CHAIN_ID = isTestnet => isTestnet ? TestnetChainIDs.Goerli : ChainIDs.Ethereum
 
 export const CHAINS_NETWORK_TO_ID = isTestnet => isTestnet ?{
-  goerli: 10121,
-  mumbai: 10109
+  Goerli: TestnetChainIDs.Goerli,
+  'Polygon Mumbai': TestnetChainIDs['Polygon Mumbai'],
+  'Base Goerli Testnet': TestnetChainIDs['Base Goerli Testnet']
 } : {
-  mainnet: 101
+  Ethereum: ChainIDs.Ethereum
 }
 
 const testnetIdToNetworkMap = {}
@@ -47,85 +49,123 @@ for (let i in mainnetNetworkToIdMap) {
 export const CHAINS_ID_TO_NETWORK = isTestnet => isTestnet ? testnetIdToNetworkMap : mainnetIdToNetworkMap 
 
 const CONTRACT_ADDRESS_GOERLI = {
-  BaseNodeValidator: '0x20f08F8d0F504075c5b640e165a56F17E5d67d3F',
-  SubNodeValidator: '0x6A98638de3375fa3403dB438Be74CBad4C7C947c',
-  CommunityTokenURIValidator: '0xa680E720dDaf0Eb9E2Bf7aFAd0433F2697d21DF8',
-  CommunityTokenURI: '0x08908A51a589d17e0384FA00d631A142f519c2cc',
-  CommunityRegistry: '0xB2BBB1450f44effcd50Da49d732CD6be1FEb7b18',
-  MemberRouter: '0x9aA2525FAc0992D730e84C8c66D5182C1a646054',
-  MemberProtocolFee: '0x33F30ec26c4a7E634ffC6850ADE7ae46D3c1A5F4',
-  MemberRegistry: '0xb1dcAc10B35B71C8E3D0C459ad8e75baa6820C69',
-  MemberTokenomics: '0x42DC8F2a9d0C0d2Db2F87c500A471621432be8b5',
-  MemberTokenURI: '0xAa1bAAae3e107c90f8A80b75D991fB01C908860E',
-  CommunityRegistryInterface: '0xa2DF6c0cfD77d673756881fA3E30090a1Accc44c',
-  LZCommunityRegistryInterface: '0x3C1121a1bDCA428d53d5c984F28D3a4F6DB0C392',
-  MemberRegistryInterfaceFactory: '0xdd1b50A9cf83C627210804AB0DEA899d6d36D622',
-  TextRecord: '0x061D9e048D0D93E64f5D2FFfDa66c97A4cD1AabD',
-  PrimaryRecord: '0xe680A242B1BdFB07Ea6353ddF343A368aFE68278'
+  BaseNodeValidator: '0x2AC9A5947C163fF76CC59Aa6053a7Fd295cA60F2',
+  SubNodeValidator: '0x429360A35e2630E1602E56C5f1a860A5Ee360d2b',
+  CommunityTokenURIValidator: '0x8F176d2649971F5d78C170782FaDa2230Ac4347D',
+  CommunityTokenURI: '0x0739238B571FbBB32ed06e7f0Fa6895146C5B28B',
+  CommunityRegistry: '0xbb3F40bF826b6eB27701c04A7493b2A55BDA29d1',
+  MemberRouter: '0x72A8Ca0B973aFa03e080559f571B2Fe977F70606',
+  MemberProtocolFee: '0x463090f36cC952948d60C690e4Aa4FC0c060579C',
+  MemberRegistry: '0xc5751123fcB55F04B21D01ACb3B2270F9c276772',
+  MemberTokenomics: '0xad92F1c50C81464a484A64BB0785A41C1Cbf17c8',
+  MemberTokenURI: '0xc10b7B0a8E0D1D7eEACa88A25F23112083D8BE5C',
+  CommunityRegistryInterface: '0xd115a8Fe397F1ceFb8B0b9d66908990917045a70',
+  RelayerCommunityRegistryInterface: '0xF9786c7B1d0d0825433a38B11F36282fB8F69AB5',
+  MemberRegistryInterfaceFactory: '0x6119f579E747BD34F55CBAdeC612C7d349A51F80',
+  TextRecord: '0xB756Be760b45AF204b956C392137e6e7397a766d',
+  PrimaryRecord: '0x5d2C41305e2827D6BccB195e532eAB86A460a9b5'
 };
 
 const CONTRACT_ADDRESS_MUMBAI = {
-  BaseNodeValidator: '0xa680E720dDaf0Eb9E2Bf7aFAd0433F2697d21DF8',
-  SubNodeValidator: '0x0B792F2662Fe5822F7b2f386A3C51ebeC77fcBC7',
-  CommunityTokenURIValidator: '0x08908A51a589d17e0384FA00d631A142f519c2cc',
-  CommunityTokenURI: '0x71DA0E6fcDcE8Ab582C28cE9F874a8E234067f99',
-  CommunityRegistry: '0x9aA2525FAc0992D730e84C8c66D5182C1a646054',
-  MemberRouter: '0xE67129FeFd27dA793493CB45A59ff0Bbcf974808',
-  MemberProtocolFee: '0xb1dcAc10B35B71C8E3D0C459ad8e75baa6820C69',
-  MemberRegistry: '0xAa1bAAae3e107c90f8A80b75D991fB01C908860E',
-  MemberTokenomics: '0xa2DF6c0cfD77d673756881fA3E30090a1Accc44c',
-  MemberTokenURI: '0x3C1121a1bDCA428d53d5c984F28D3a4F6DB0C392',
-  CommunityRegistryInterface: '0x66eC45acb25EaC1F14D1fe55689eb0237090ac5D',
-  LZCommunityRegistryInterface: '0x79f86139cc4C6fdEc4fEA57380575a7517a3E64b',
-  MemberRegistryInterfaceFactory: '0xe680A242B1BdFB07Ea6353ddF343A368aFE68278',
-  TextRecord: '0x8519a14b53e69Afed314B7B37670De859F3bdDcF',
-  PrimaryRecord: '0x1130d7700608b7b0c62da7da8C93991b29FE1E4E'
+  BaseNodeValidator: '0x615C2FaccEEc0C1e10273e580A062BE50b03C2EA',
+  SubNodeValidator: '0xd121ccF8DEc3798271D88B877CBe26B280676482',
+  CommunityTokenURIValidator: '0x2AC9A5947C163fF76CC59Aa6053a7Fd295cA60F2',
+  CommunityTokenURI: '0x8F176d2649971F5d78C170782FaDa2230Ac4347D',
+  CommunityRegistry: '0x5a8a7655f7f024A6f167FB2a5891a63eC49e730f',
+  MemberRouter: '0xbb3F40bF826b6eB27701c04A7493b2A55BDA29d1',
+  MemberProtocolFee: '0x9a17d7b43Bb8b741C4663e6f8A0FE6eD48cD4900',
+  MemberRegistry: '0x463090f36cC952948d60C690e4Aa4FC0c060579C',
+  MemberTokenomics: '0xF9A7282A8F82d0CE94BC25094a8c1e59a094056F',
+  MemberTokenURI: '0xc5751123fcB55F04B21D01ACb3B2270F9c276772',
+  CommunityRegistryInterface: '0xad92F1c50C81464a484A64BB0785A41C1Cbf17c8',
+  RelayerCommunityRegistryInterface: ZERO_ADDRESS,
+  MemberRegistryInterfaceFactory: '0xF9786c7B1d0d0825433a38B11F36282fB8F69AB5',
+  TextRecord: '0x5125B8Ea2B783C9E9417A10511e791E6551ae26A',
+  PrimaryRecord: '0xA8B36a6f1DC0d67D0367086709179A1f90d455D9'
 };
 
+const CONTRACT_ADDRESS_BASE_GOERLI = {
+  BaseNodeValidator: '0x04215617861853a2B00a5003137901e0CEf5364c',
+  SubNodeValidator: '0x3aB0B78B7a6A51602722730b5fCCDAeadAb7929f',
+  CommunityTokenURIValidator: '0x98eFDdF61749125BA1fd6A5B2ff6bF2816987583',
+  CommunityTokenURI: '0xfb249C3FFB28BfEd898751192a1AAD93268998f5',
+  CommunityRegistry: '0x8D63E3796B5972b1878A83eeF90fb6d27aBF6191',
+  MemberRouter: '0x88537F689fa5A33A17E25dBEe3622Dc6B959E188',
+  MemberProtocolFee: '0x69c1759CC06587213B896d4Aac2470eaf2DBE453',
+  MemberRegistry: '0x219D1BC97f3a7BBe1f7Fef245E1580DfdFeDC4C5',
+  MemberTokenomics: '0x31964b6d3Bb64144d45f9e85C5e665F0468A57b3',
+  MemberTokenURI: '0xdDfE9c93B11F66C442D4Ac9B1EcF645CF59D3480',
+  CommunityRegistryInterface: '0x973F4e839E1C6Ff80c84005266a0FB6afB125ad1',
+  RelayerCommunityRegistryInterface: ZERO_ADDRESS,
+  MemberRegistryInterfaceFactory: '0xdE930A113A090a1fAD6CE23178B554cEDf704cC5',
+  TextRecord: '0x3710fAB64f4c2BAb8fb14b758496551C6893E3e7',
+  PrimaryRecord: '0xbc1D7AD62979A03e242b505cD4e15c84AE41Cfd6'
+};
+
+const CONTRACT_ADDRESS_OP_GOERLI = {
+  BaseNodeValidator: '0x69c1759CC06587213B896d4Aac2470eaf2DBE453',
+  SubNodeValidator: '0x3F591ce589bEAab3033EA9402431a7CbcA86E992',
+  CommunityTokenURIValidator: '0x219D1BC97f3a7BBe1f7Fef245E1580DfdFeDC4C5',
+  CommunityTokenURI: '0xdDfE9c93B11F66C442D4Ac9B1EcF645CF59D3480',
+  CommunityRegistry: '0x973F4e839E1C6Ff80c84005266a0FB6afB125ad1',
+  MemberRouter: '0x988b19761351BfF31Cfa5B63107E0574c13a0382',
+  MemberProtocolFee: '0xdE930A113A090a1fAD6CE23178B554cEDf704cC5',
+  MemberRegistry: '0xbc1D7AD62979A03e242b505cD4e15c84AE41Cfd6',
+  MemberTokenomics: '0x967decd4560f295F6DA40d934F496E0028D6286E',
+  MemberTokenURI: '0xCdCA8D8B3b57632E1c5Ba947d66d21F81a124963',
+  CommunityRegistryInterface: '0x14C2C54e4EA5BB10687C2B0ff95090bC853433E3',
+  RelayerCommunityRegistryInterface: '0x0000000000000000000000000000000000000000',
+  MemberRegistryInterfaceFactory: '0xF1DF1b62e51b11C2Fe6c84fD9A1B350d68E8f1b7',
+  TextRecord: '0x0CB8e1780e507b86EFD591E5b6874f5A66bed875',
+  PrimaryRecord: '0xaa13C3bAAb922e906753c37A96D98F14e4F8a1aB'
+}
+
 const CONTRACT_ADDRESS_MAINNET = {
-  BaseNodeValidator: '0xfF795E4B82c97e41e1eFA40239fE1A13763542CD',
-  SubNodeValidator: '0x035bFdd94Bf49505fC74d2e7d52cF94732103c99',
-  CommunityTokenURIValidator: '0x822Caeb805AffCce3D399BD08Abe1B2E35dcB06b',
-  CommunityTokenURI: '0x67046D3E6bfCb6E6d46DFd4D038260214245D771',
-  CommunityRegistry: '0x640216Ea5b2aC018b1d1FDB3F0a206F652C92574',
-  MemberRouter: '0x0DbE6ad0C681E4055f18509cbdde2dbdF3626065',
-  MemberProtocolFee: '0x4C35E2d49592992Bbf64334A7F632ACC454A2582',
-  MemberRegistry: '0x14865C1c1a5553144588d26f899FE6101bC2f734',
-  MemberTokenomics: '0xfBFB4E60A5a6f08790715d1435bd4F392b2f04f7',
-  MemberTokenURI: '0x349C8aD4f5555aA9E4BCE37b2379266762882D4B',
-  CommunityRegistryInterface: '0x213cba02742735d1D0F9D692b1E694644f29c87C',
-  LZCommunityRegistryInterface: '0x9B709180dEb3393fE3201cDDA3Ba5556e133DaA1',
-  MemberRegistryInterfaceFactory: '0xf43EF51EeBd1885165BF5D3Bfb2CEe88FE2dD589',
-  TextRecord: '0x4F0061b6ad8be8C038A1447c67eB959017F884e6',
-  PrimaryRecord: '0xd825A94EAcA80e3e2cBf44C2AdD2202031086b04'
+  BaseNodeValidator: '0x20b1714B4a378534e9cAFA199Fe8134d5DC8fAF1',
+  SubNodeValidator: '0xd75652233327e7399B65A88F4812846c29964404',
+  CommunityTokenURIValidator: '0x604860152261700c23171528fED4A032382E8893',
+  CommunityTokenURI: '0xC29c941d3Eea73C1e17859fFF9E164DB645713C6',
+  CommunityRegistry: '0x8f4eC0e46A9b3e4Ddfe12f8b0A6c1F095D20B76f',
+  MemberRouter: '0x674bFAEaAe434063Ee5B90117953Ab8E9cb9e5F1',
+  MemberProtocolFee: '0xB9389ad43fb43a13cDd70d6d28E486fe0bC38383',
+  MemberRegistry: '0xA024CF083A373eeAF052D222476FF6030993e081',
+  MemberTokenomics: '0x3FD166a6F7d857E7a749BF721E8Fbb26644EF767',
+  MemberTokenURI: '0xE52191331Ef603c6964A7Ad53722cf1b9Fa2F211',
+  CommunityRegistryInterface: '0xaC77FA6E0810385BbD4be8C72ebbc96F6C36daD8',
+  RelayerCommunityRegistryInterface: '0x0000000000000000000000000000000000000000',
+  MemberRegistryInterfaceFactory: '0x963322A9BDF848D9a495a3186D4b95008FF72816',
+  TextRecord: '0xcEc6dc6bD56dd2aC5A1eebda92087Ac96a09260E',
+  PrimaryRecord: '0xd926AcDC0bcC76232aEB4f3A07cFEE768F1afb57'
 };
 
 export const CONTRACT_MAP = isTestnet => isTestnet ? {
-  10121: CONTRACT_ADDRESS_GOERLI,
-  10109: CONTRACT_ADDRESS_MUMBAI
+  [TestnetChainIDs.Goerli]: CONTRACT_ADDRESS_GOERLI,
+  [TestnetChainIDs['Polygon Mumbai']]: CONTRACT_ADDRESS_MUMBAI,
+  [TestnetChainIDs['Base Goerli Testnet']]: CONTRACT_ADDRESS_BASE_GOERLI,
+  [TestnetChainIDs['Optimism Goerli Testnet']]: CONTRACT_ADDRESS_OP_GOERLI
 } : {
-  101: CONTRACT_ADDRESS_MAINNET
+  [ChainIDs.Ethereum]: CONTRACT_ADDRESS_MAINNET
 }
 
 export const ABIs = {
-  BaseNodeValidator: BaseNodeValidator,
-  CommunityRegistry: CommunityRegistry,
-  CommunityRegistryInterface: CommunityRegistryInterface,
-  CommunityTokenURI: CommunityTokenURI,
-  CommunityTokenURIValidator: CommunityTokenURIValidator,
-  ERC20: ERC20,
-  LZCommunityRegistryInterface: LZCommunityRegistryInterface,
-  LZReplicaCommunityRegistryInterface: LZReplicaCommunityRegistryInterface,
-  MemberProtocolFee: MemberProtocolFee,
-  MemberRegistry: MemberRegistry,
-  MemberRegistryInterface: MemberRegistryInterface,
-  MemberRegistryInterfaceFactory: MemberRegistryInterfaceFactory,
-  MemberRouter: MemberRouter,
-  MemberTokenomics: MemberTokenomics,
-  MemberTokenURI: MemberTokenURI,
-  PrimaryRecord: PrimaryRecord,
-  SubNodeValidator: SubNodeValidator,
-  TextRecord: TextRecord,
+  BaseNodeValidator,
+  CommunityRegistry,
+  CommunityRegistryInterface,
+  CommunityTokenURI,
+  CommunityTokenURIValidator,
+  ERC20,
+  RelayerCommunityRegistryInterface,
+  RelayerReplicaCommunityRegistryInterface,
+  MemberProtocolFee,
+  MemberRegistry,
+  MemberRegistryInterface,
+  MemberRegistryInterfaceFactory,
+  MemberRouter,
+  MemberTokenomics,
+  MemberTokenURI,
+  PrimaryRecord,
+  SubNodeValidator,
+  TextRecord,
 }
 
 export const ERROR_MAP: any = {

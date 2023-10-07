@@ -2,12 +2,13 @@
 // require('dotenv').config()
 
 // const OPTIONS: CommunitiesIDInput = {
-//   mainnet: {
+//   Ethereum: {
 //     RPCUrl: process.env.MAINNET_RPC_URL || '',
 //     alchemyKey: process.env.MAINNET_ALCHEMY_KEY || '',
 //   },
-//   binance: {
-//     RPCUrl: process.env.BINANCE_RPC_URL || ''
+//   BSC: {
+//     RPCUrl: process.env.BINANCE_RPC_URL || '',
+//     alchemyKey: '',
 //   },
 //   arbitrum: {
 //     RPCUrl: process.env.ARBITRUM_RPC_URL || ''
@@ -59,17 +60,17 @@
 // });
 
 // test("should getAllBrandDIDs works well", async () => {
-//   const res: any[] = await collector.getAllBrandDIDs("mainnet")
+//   const res: any[] = await collector.getAllBrandDIDs("Ethereum")
 //   console.log(res.map(v => v.title))
 // });
 
 // test("should getAllBrandDIDsOwnedByAddress works well", async () => {
-//   const res: any[] = await collector.getAllBrandDIDsOwnedByAddress(ADDRESS, 'mainnet')
+//   const res: any[] = await collector.getAllBrandDIDsOwnedByAddress(ADDRESS, 'Ethereum')
 //   console.log(res.map(v => v.title))
 // });
 
 // test("should getAllUserDIDsOwnedByAddress works well", async () => {
-//   const res: any[] = await collector.getAllUserDIDsOwnedByAddress(ADDRESS, 'mainnet')
+//   const res: any[] = await collector.getAllUserDIDsOwnedByAddress(ADDRESS, 'Ethereum')
 //   console.log(res.map(v => v.metadata && v.metadata.name))
 // });
 
@@ -79,6 +80,6 @@
 // });
 
 // test("should getAllUserDIDsOwnedByBrand with registry and chain works well", async () => {
-//   const res: any[] = await collector.getAllUserDIDsOwnedByBrand('', '0x6bac3711576a895371ccf5b87c425de7606cf021', 'mainnet')
+//   const res: any[] = await collector.getAllUserDIDsOwnedByBrand('', '0x6bac3711576a895371ccf5b87c425de7606cf021', 'Ethereum')
 //   console.log(res.map(v => v.metadata && v.metadata.name))
 // });

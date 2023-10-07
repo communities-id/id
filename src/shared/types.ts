@@ -1,54 +1,36 @@
 import { BigNumber, ethers } from "ethers"
 
-export type SupportedChainIds = 101 | 10121 | 10109
-export type SupportedChains = 'mainnet' | 'goerli' | 'mumbai'
-
-
-export type mainnetCommunitiesIDInput = {
-  isTestnet?: false,
-  mainnet: {
-    // The RPC url for eth main network
-    RPCUrl: string,
-    // The signer for eth main network, the write method will use this signer to sign the transaction
-    generateSigner?: (provider: ethers.providers.Provider) => ethers.Signer
-    // The Alchemy key for eth main network
-    alchemyKey: string,
-  },
-  binance: {
-    // The RPC url for binance network
-    RPCUrl: string,
-  },
-  arbitrum: {
-    // The RPC url for arbitrum network
-    RPCUrl: string,
-  }
+export enum ChainIDs {
+  Ethereum = 1,
+  // Polygon = 137,
+  BSC = 56,
+  // Base = 8453,
+  // OP = 10
 }
 
-export type testnetCommunitiesIDInput = {
-  isTestnet: true,
-  /**
-   * The config for goerli network
-   */
-  goerli: {
-    // The RPC url for goerli network
-    RPCUrl: string,
-    // The signer for goerli network, the write method will use this signer to sign the transaction
-    generateSigner?: (provider: ethers.providers.Provider) => ethers.Signer
-    // The Alchemy key for goerli network
-    alchemyKey: string,
-  },
-  /**
-   * The config for mumbai network
-   */
-  mumbai: {
-     // The RPC url for polygon mumbai network
-     RPCUrl: string,
-     // The signer for polygon mumbai network, the write method will use this signer to sign the transaction
-     generateSigner?: (provider: ethers.providers.Provider) => ethers.Signer
-     // The Alchemy key for polygon mumbai network
-     alchemyKey: string,
-  }
+export enum TestnetChainIDs {
+  Goerli = 5,
+  'Polygon Mumbai' = 80001,
+  // 'BNB Smart Chain Testnet' = 97,
+  'Base Goerli Testnet' = 84531,
+  'Optimism Goerli Testnet' = 420
 }
+
+type ToNumber<S> = S extends `${infer N extends number}` ? N : never
+export type SupportedChainIds = ToNumber<`${ChainIDs}` | `${TestnetChainIDs}`>
+export type SupportedChains = keyof typeof ChainIDs | keyof typeof TestnetChainIDs
+
+export type mainnetCommunitiesIDInput = Record<keyof typeof ChainIDs, {
+  RPCUrl: string
+  alchemyKey: string
+  generateSigner?: (provider: ethers.providers.Provider) => ethers.Signer
+}> & { arbitrum: { RPCUrl: string } } & { isTestnet?: false }
+
+export type testnetCommunitiesIDInput = Record<keyof typeof TestnetChainIDs, {
+  RPCUrl: string
+  alchemyKey: string
+  generateSigner?: (provider: ethers.providers.Provider) => ethers.Signer
+}> & { isTestnet: true }
 
 export type CommunitiesIDInput = mainnetCommunitiesIDInput | testnetCommunitiesIDInput
 
@@ -93,6 +75,8 @@ export type BrandDID = {
     proofOfHolding: string[],
     signer: string,
     coin: string,
+    sequenceMode: number
+    durationUnit: number
   }
 }
 
