@@ -27,7 +27,8 @@ export const MAIN_CHAIN_ID = isTestnet => isTestnet ? TestnetChainIDs.Goerli : C
 export const CHAINS_NETWORK_TO_ID = isTestnet => isTestnet ?{
   Goerli: TestnetChainIDs.Goerli,
   'Polygon Mumbai': TestnetChainIDs['Polygon Mumbai'],
-  'Base Goerli Testnet': TestnetChainIDs['Base Goerli Testnet']
+  'Base Goerli Testnet': TestnetChainIDs['Base Goerli Testnet'],
+  'Optimism Goerli Testnet': TestnetChainIDs['Optimism Goerli Testnet']
 } : {
   Ethereum: ChainIDs.Ethereum
 }
