@@ -11,7 +11,7 @@ export enum ChainIDs {
 export enum TestnetChainIDs {
   Goerli = 5,
   'Polygon Mumbai' = 80001,
-  // 'BNB Smart Chain Testnet' = 97,
+  'BNB Smart Chain Testnet' = 97,
   'Base Goerli Testnet' = 84531,
   'Optimism Goerli Testnet' = 420
 }

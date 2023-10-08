@@ -28,7 +28,8 @@ export const CHAINS_NETWORK_TO_ID = isTestnet => isTestnet ?{
   Goerli: TestnetChainIDs.Goerli,
   'Polygon Mumbai': TestnetChainIDs['Polygon Mumbai'],
   'Base Goerli Testnet': TestnetChainIDs['Base Goerli Testnet'],
-  'Optimism Goerli Testnet': TestnetChainIDs['Optimism Goerli Testnet']
+  'Optimism Goerli Testnet': TestnetChainIDs['Optimism Goerli Testnet'],
+  'BNB Smart Chain Testnet': TestnetChainIDs['BNB Smart Chain Testnet']
 } : {
   Ethereum: ChainIDs.Ethereum
 }
@@ -121,6 +122,24 @@ const CONTRACT_ADDRESS_OP_GOERLI = {
   PrimaryRecord: '0xaa13C3bAAb922e906753c37A96D98F14e4F8a1aB'
 }
 
+const CONTRACT_ADDRESS_BSC_TESTNET = {
+  BaseNodeValidator: '0x98eFDdF61749125BA1fd6A5B2ff6bF2816987583',
+  SubNodeValidator: '0x16dd8Bd899C4ace6638d31C91235877A6bDb513a',
+  CommunityTokenURIValidator: '0xfb249C3FFB28BfEd898751192a1AAD93268998f5',
+  CommunityTokenURI: '0xE74C9F7e4682D4c986B873Dc0AE5dd934900f63a',
+  CommunityRegistry: '0x88537F689fa5A33A17E25dBEe3622Dc6B959E188',
+  MemberRouter: '0x3F591ce589bEAab3033EA9402431a7CbcA86E992',
+  MemberProtocolFee: '0x219D1BC97f3a7BBe1f7Fef245E1580DfdFeDC4C5',
+  MemberRegistry: '0xdDfE9c93B11F66C442D4Ac9B1EcF645CF59D3480',
+  MemberTokenomics: '0x973F4e839E1C6Ff80c84005266a0FB6afB125ad1',
+  MemberTokenURI: '0x62998330B44337230833e148767e4450880C67D6',
+  CommunityRegistryInterface: '0x988b19761351BfF31Cfa5B63107E0574c13a0382',
+  RelayerCommunityRegistryInterface: ZERO_ADDRESS,
+  MemberRegistryInterfaceFactory: '0xbc1D7AD62979A03e242b505cD4e15c84AE41Cfd6',
+  TextRecord: '0x967decd4560f295F6DA40d934F496E0028D6286E',
+  PrimaryRecord: '0xCdCA8D8B3b57632E1c5Ba947d66d21F81a124963'
+}
+
 const CONTRACT_ADDRESS_MAINNET = {
   BaseNodeValidator: '0x20b1714B4a378534e9cAFA199Fe8134d5DC8fAF1',
   SubNodeValidator: '0xd75652233327e7399B65A88F4812846c29964404',
@@ -143,7 +162,8 @@ export const CONTRACT_MAP = isTestnet => isTestnet ? {
   [TestnetChainIDs.Goerli]: CONTRACT_ADDRESS_GOERLI,
   [TestnetChainIDs['Polygon Mumbai']]: CONTRACT_ADDRESS_MUMBAI,
   [TestnetChainIDs['Base Goerli Testnet']]: CONTRACT_ADDRESS_BASE_GOERLI,
-  [TestnetChainIDs['Optimism Goerli Testnet']]: CONTRACT_ADDRESS_OP_GOERLI
+  [TestnetChainIDs['Optimism Goerli Testnet']]: CONTRACT_ADDRESS_OP_GOERLI,
+  [TestnetChainIDs['BNB Smart Chain Testnet']]: CONTRACT_ADDRESS_BSC_TESTNET
 } : {
   [ChainIDs.Ethereum]: CONTRACT_ADDRESS_MAINNET
 }
