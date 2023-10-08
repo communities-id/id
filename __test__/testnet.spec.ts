@@ -19,22 +19,29 @@ const OPTIONS: CommunitiesIDInput = {
   }
 }
 
-// const WRITEABLE_OPTIONS: CommunitiesIDInput = {
-//   isTestnet: true,
-//   Goerli: {
-//     RPCUrl: process.env.GOERLI_RPC_URL || '',
-//     alchemyKey: process.env.GOERLI_ALCHEMY_KEY || '',
-//     generateSigner: provider => new ethers.Wallet(process.env.PRIVATE_KEY || '', provider)
-//   },
-//   'Polygon Mumbai': {
-//     RPCUrl: process.env.MUMBAI_RPC_URL || '',
-//     alchemyKey: process.env.MUMBAI_ALCHEMY_KEY || '',
-//     generateSigner: provider => new ethers.Wallet(process.env.PRIVATE_KEY || '', provider)
-//   }
-// }
+const WRITEABLE_OPTIONS: CommunitiesIDInput = {
+  isTestnet: true,
+  openseaKey: process.env.OPENSEA_KEY || '',
+  Goerli: {
+    RPCUrl: process.env.GOERLI_RPC_URL || '',
+    generateSigner: provider => new ethers.Wallet(process.env.PRIVATE_KEY || '', provider)
+  },
+  'Polygon Mumbai': {
+    RPCUrl: process.env.MUMBAI_RPC_URL || '',
+    generateSigner: provider => new ethers.Wallet(process.env.PRIVATE_KEY || '', provider)
+  },
+  'Base Goerli Testnet': {
+    RPCUrl: process.env.BASE_RPC_URL || '',
+    generateSigner: provider => new ethers.Wallet(process.env.PRIVATE_KEY || '', provider)
+  },
+  'Optimism Goerli Testnet': {
+    RPCUrl: process.env.OP_RPC_URL || '',
+    generateSigner: provider => new ethers.Wallet(process.env.PRIVATE_KEY || '', provider)
+  }
+}
 
 const sdk = new CommunitiesID(OPTIONS)
-// const sdk = new CommunitiesIDResolver(WRITEABLE_OPTIONS)
+// const sdk = new CommunitiesID(WRITEABLE_OPTIONS)
 const { resolver, collector, operator } = sdk
 const ADDRESS = '0xca07bD081A9cc15b45D3Fe2BbE7762B923Ca4B29'
 
@@ -104,12 +111,12 @@ test('should getMintUserDIDPrice works well', async() => {
 
 test('should mintUserDID works well', async() => {
   try {
-    const res = await operator.mintUserDID('c.did', ADDRESS, {
+    const res = await operator.mintUserDID('a.jtest3', ADDRESS, {
       onTransactionCreated: tx => console.log(tx)
     })
     return res
   } catch(e) {
-    console.log(e.message)
+    console.log(e)
   }
 })
 

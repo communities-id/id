@@ -31,7 +31,7 @@ export default class CommunitiesID {
         continue
       }
       this.providers[i] = options[i].RPCUrl && new ethers.providers.JsonRpcProvider(options[i].RPCUrl)
-      this.signerGenerator[i] = options[i].signerGenerator
+      this.signerGenerator[i] = options[i].generateSigner
     }
 
     this.init()
