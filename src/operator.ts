@@ -30,10 +30,10 @@ export default class Operator extends SDKBase {
     }
     const chainId = community.chainId
     const contractAddress = CONTRACT_MAP(this.isTestnet)[chainId]
-    const { node } = community
+    const { node, config } = community
     const MemberProtocolFee = this.getContract(contractAddress.MemberProtocolFee, ABIs.MemberProtocolFee, chainId as SupportedChainIds)
     const MemberRegistryInterface = this.getContract(node.registryInterface, ABIs.MemberRegistryInterface, chainId as SupportedChainIds)
-    const { basePrice, commission } = await MemberRegistryInterface.getMintPrice(keccak256(memberName), ONE_ADDRESS, ONE_ADDRESS, 365);
+    const { basePrice, commission } = await MemberRegistryInterface.getMintPrice(keccak256(memberName), ONE_ADDRESS, ONE_ADDRESS, config.durationUnit);
     const protocolFee = await MemberProtocolFee.getProtocolFee(node.registry, 1);
     return { price: basePrice.add(commission), protocolFee }
   }
@@ -71,9 +71,10 @@ export default class Operator extends SDKBase {
     if (!config.publicMint && !config.holdingMint && !config.signatureMint) {
       throw new Error(`This community "${communityName}" does not support mint currently`);
     }
+    const durationUnit = community.config.durationUnit
     try {
       if (config.publicMint && memberName.indexOf('.') === -1) {
-        const mintTx = await MemberRegistryInterface.publicMint(mintTo, 365, memberName, { value: totalPrice.toString() })
+        const mintTx = await MemberRegistryInterface.publicMint(mintTo, durationUnit, memberName, { value: totalPrice.toString() })
         if (mintOptions.onTransactionCreated) {
           mintOptions.onTransactionCreated(mintTx)
         }
@@ -84,7 +85,7 @@ export default class Operator extends SDKBase {
         const proofs = await this.openseaSDK.fetchProofOfHolding(config.proofOfHolding, mintTo, chainId as SupportedChainIds)
         if (proofs) {
           const { holdingContract, holdingTokenId } = proofs
-          const mintTx = await MemberRegistryInterface.holdingMint(mintTo, 365, memberName, holdingContract, holdingTokenId, { value: totalPrice.toString() })
+          const mintTx = await MemberRegistryInterface.holdingMint(mintTo, durationUnit, memberName, holdingContract, holdingTokenId, { value: totalPrice.toString() })
           if (mintOptions.onTransactionCreated) {
             mintOptions.onTransactionCreated(mintTx)
           }
@@ -99,7 +100,7 @@ export default class Operator extends SDKBase {
           registry: node.registry,
           node: memberName,
           owner: mintOptions.owner,
-          day: 365,
+          day: durationUnit,
           deadline: 999999999999,
         };
         const mintTx = await MemberRegistryInterface.signatureMint(commitment, mintOptions.signature, mintTo, { value: totalPrice.toString() })
@@ -171,10 +172,10 @@ export default class Operator extends SDKBase {
       const { price, protocolFee } = await this.getRenewUserDIDPrice(name, { userDID: member })
       totalPrice = price.add(protocolFee)
     }
-    const { node, chainId } = community
+    const { node, chainId, config } = community
     const MemberRegistryInterface = this.getWriteContract(node.registryInterface, ABIs.MemberRegistryInterface, chainId as SupportedChainIds)
     try {
-      const tx = await MemberRegistryInterface.renew(keccak256(memberName), 365, { value: totalPrice.toString() });
+      const tx = await MemberRegistryInterface.renew(keccak256(memberName), config.durationUnit, { value: totalPrice.toString() });
       if (renewOptions.onTransactionCreated) {
         renewOptions.onTransactionCreated(tx)
       }

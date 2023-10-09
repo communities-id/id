@@ -16,6 +16,9 @@ const OPTIONS: CommunitiesIDInput = {
   },
   'Optimism Goerli Testnet': {
     RPCUrl: process.env.OP_RPC_URL || '',
+  },
+  'BNB Smart Chain Testnet': {
+    RPCUrl: process.env.BSC_RPC_URL || '',
   }
 }
 
@@ -37,16 +40,20 @@ const WRITEABLE_OPTIONS: CommunitiesIDInput = {
   'Optimism Goerli Testnet': {
     RPCUrl: process.env.OP_RPC_URL || '',
     generateSigner: provider => new ethers.Wallet(process.env.PRIVATE_KEY || '', provider)
+  },
+  'BNB Smart Chain Testnet': {
+    RPCUrl: process.env.BSC_RPC_URL || '',
+    generateSigner: provider => new ethers.Wallet(process.env.PRIVATE_KEY || '', provider)
   }
 }
 
-const sdk = new CommunitiesID(OPTIONS)
-// const sdk = new CommunitiesID(WRITEABLE_OPTIONS)
+// const sdk = new CommunitiesID(OPTIONS)
+const sdk = new CommunitiesID(WRITEABLE_OPTIONS)
 const { resolver, collector, operator } = sdk
 const ADDRESS = '0xca07bD081A9cc15b45D3Fe2BbE7762B923Ca4B29'
 
 test("should searchBrandDID works well", async () => {
-  const res = await collector.searchBrandDID('jtest1')
+  const res = await collector.searchBrandDID('gene130')
   console.log(res)
 });
 
@@ -111,7 +118,7 @@ test('should getMintUserDIDPrice works well', async() => {
 
 test('should mintUserDID works well', async() => {
   try {
-    const res = await operator.mintUserDID('a.jtest3', ADDRESS, {
+    const res = await operator.mintUserDID('b.jtest3', ADDRESS, {
       onTransactionCreated: tx => console.log(tx)
     })
     return res

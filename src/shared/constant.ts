@@ -31,7 +31,8 @@ export const CHAINS_NETWORK_TO_ID = isTestnet => isTestnet ?{
   'Optimism Goerli Testnet': TestnetChainIDs['Optimism Goerli Testnet'],
   'BNB Smart Chain Testnet': TestnetChainIDs['BNB Smart Chain Testnet']
 } : {
-  Ethereum: ChainIDs.Ethereum
+  Ethereum: ChainIDs.Ethereum,
+  Polygon: ChainIDs.Polygon
 }
 
 const testnetIdToNetworkMap = {}
@@ -141,22 +142,42 @@ const CONTRACT_ADDRESS_BSC_TESTNET = {
 }
 
 const CONTRACT_ADDRESS_MAINNET = {
-  BaseNodeValidator: '0x20b1714B4a378534e9cAFA199Fe8134d5DC8fAF1',
-  SubNodeValidator: '0xd75652233327e7399B65A88F4812846c29964404',
-  CommunityTokenURIValidator: '0x604860152261700c23171528fED4A032382E8893',
-  CommunityTokenURI: '0xC29c941d3Eea73C1e17859fFF9E164DB645713C6',
-  CommunityRegistry: '0x8f4eC0e46A9b3e4Ddfe12f8b0A6c1F095D20B76f',
-  MemberRouter: '0x674bFAEaAe434063Ee5B90117953Ab8E9cb9e5F1',
-  MemberProtocolFee: '0xB9389ad43fb43a13cDd70d6d28E486fe0bC38383',
-  MemberRegistry: '0xA024CF083A373eeAF052D222476FF6030993e081',
-  MemberTokenomics: '0x3FD166a6F7d857E7a749BF721E8Fbb26644EF767',
-  MemberTokenURI: '0xE52191331Ef603c6964A7Ad53722cf1b9Fa2F211',
-  CommunityRegistryInterface: '0xaC77FA6E0810385BbD4be8C72ebbc96F6C36daD8',
+  BaseNodeValidator: '0xf67e3121EBf047480B8D1dd7E721bb98a4FAA314',
+  SubNodeValidator: '0x21CfDA4781FdCA2925015e8346De554462e7e974',
+  CommunityTokenURIValidator: '0x81Ab8DF4599B9C0b29b52Fd8FCfAe820c9b607A0',
+  CommunityTokenURI: '0xfaeB43ce36c85f386E18CfFb321D49E258E019a7',
+  CommunityRegistry: '0x497a1D143fd391815334Cdea0B676C960a1d202d',
+  MemberRouter: '0x3388e50bEC21EB033927172a69bE46AD5d557eB4',
+  MemberProtocolFee: '0x5AE34a6325c65F6fFd9352bA9CeB3e050BEc968F',
+  MemberRegistry: '0x17Ae878E1B0c93eB71BDB84526F75e2CAC9Ce895',
+  MemberTokenomics: '0xC9B4597b3D5fa8fBFce306f6B1a961F88AD8593b',
+  MemberTokenURI: '0x49240B15bf8f0D7914F2D27A596d7e986AfE134b',
+  CommunityRegistryInterface: '0x396FF835f5152CF263c96Ec5889dB34c2BEFbD9f',
+  RelayerReplicaCommunityRegistryInterface: '0x0000000000000000000000000000000000000000',
+  RelayerCommunityRegistryInterface: '0xc4b3Ea419272fe7cB53D19b535b1C3A95b64A369',
+  MemberRegistryInterfaceFactory: '0x4C5eAe55Bb4143B700A047806A7E3360fDB086a1',
+  TextRecord: '0x959c31db2c5605425C5A49C1c3eee84038e62B61',
+  PrimaryRecord: '0x4FD72382aa278251537AAadEc402FF1231b4A99A',
+}
+
+const CONTRACT_ADDRESS_POLYGON = {
+  BaseNodeValidator: '0xfF795E4B82c97e41e1eFA40239fE1A13763542CD',
+  SubNodeValidator: '0x713cE7659C61E36f3Cd3CC146BAB8412bEB2e1D6',
+  CommunityTokenURIValidator: '0x035bFdd94Bf49505fC74d2e7d52cF94732103c99',
+  CommunityTokenURI: '0x822Caeb805AffCce3D399BD08Abe1B2E35dcB06b',
+  CommunityRegistry: '0x2bc0d6915f02593d5c7387156997dda10566dC9a',
+  MemberRouter: '0x640216Ea5b2aC018b1d1FDB3F0a206F652C92574',
+  MemberProtocolFee: '0x2154E691091C650Aa2788BF43a878b7df932b0bD',
+  MemberRegistry: '0x0DbE6ad0C681E4055f18509cbdde2dbdF3626065',
+  MemberTokenomics: '0x213cba02742735d1D0F9D692b1E694644f29c87C',
+  MemberTokenURI: '0xfEB14303afeDAAFf9af63E37ae51d86F19010169',
+  CommunityRegistryInterface: '0x9B709180dEb3393fE3201cDDA3Ba5556e133DaA1',
+  RelayerReplicaCommunityRegistryInterface: '0x9B709180dEb3393fE3201cDDA3Ba5556e133DaA1',
   RelayerCommunityRegistryInterface: '0x0000000000000000000000000000000000000000',
-  MemberRegistryInterfaceFactory: '0x963322A9BDF848D9a495a3186D4b95008FF72816',
-  TextRecord: '0xcEc6dc6bD56dd2aC5A1eebda92087Ac96a09260E',
-  PrimaryRecord: '0xd926AcDC0bcC76232aEB4f3A07cFEE768F1afb57'
-};
+  MemberRegistryInterfaceFactory: '0x4F0061b6ad8be8C038A1447c67eB959017F884e6',
+  TextRecord: '0xd825A94EAcA80e3e2cBf44C2AdD2202031086b04',
+  PrimaryRecord: '0xa05D09C56AFc651cEB2a1D5C9aD3bcbe2C4185A4'
+}
 
 export const CONTRACT_MAP = isTestnet => isTestnet ? {
   [TestnetChainIDs.Goerli]: CONTRACT_ADDRESS_GOERLI,
@@ -165,7 +186,8 @@ export const CONTRACT_MAP = isTestnet => isTestnet ? {
   [TestnetChainIDs['Optimism Goerli Testnet']]: CONTRACT_ADDRESS_OP_GOERLI,
   [TestnetChainIDs['BNB Smart Chain Testnet']]: CONTRACT_ADDRESS_BSC_TESTNET
 } : {
-  [ChainIDs.Ethereum]: CONTRACT_ADDRESS_MAINNET
+  [ChainIDs.Ethereum]: CONTRACT_ADDRESS_MAINNET,
+  [ChainIDs.Polygon]: CONTRACT_ADDRESS_POLYGON
 }
 
 export const ABIs = {
