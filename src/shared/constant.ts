@@ -32,7 +32,10 @@ export const CHAINS_NETWORK_TO_ID = isTestnet => isTestnet ?{
   'BNB Smart Chain Testnet': TestnetChainIDs['BNB Smart Chain Testnet']
 } : {
   Ethereum: ChainIDs.Ethereum,
-  Polygon: ChainIDs.Polygon
+  Polygon: ChainIDs.Polygon,
+  Base: ChainIDs.Base,
+  OP: ChainIDs.OP,
+  BSC: ChainIDs.BSC,
 }
 
 const testnetIdToNetworkMap = {}
@@ -179,6 +182,63 @@ const CONTRACT_ADDRESS_POLYGON = {
   PrimaryRecord: '0xa05D09C56AFc651cEB2a1D5C9aD3bcbe2C4185A4'
 }
 
+const CONTRACT_ADDRESS_BASE = {
+  BaseNodeValidator: '0x713cE7659C61E36f3Cd3CC146BAB8412bEB2e1D6',
+  SubNodeValidator: '0x035bFdd94Bf49505fC74d2e7d52cF94732103c99',
+  CommunityTokenURIValidator: '0xE78DB33F8278CEA9f197689BB2863c3c05fEe522',
+  CommunityTokenURI: '0x2bc0d6915f02593d5c7387156997dda10566dC9a',
+  CommunityRegistry: '0x67046D3E6bfCb6E6d46DFd4D038260214245D771',
+  MemberRouter: '0x2154E691091C650Aa2788BF43a878b7df932b0bD',
+  MemberProtocolFee: '0x482FBacDF04060Ca97Ed25a7f69971F860AC4F2D',
+  MemberRegistry: '0x4C35E2d49592992Bbf64334A7F632ACC454A2582',
+  MemberTokenomics: '0x1684E74EDA3e23e1D450B25BE82A49BD8B3401a1',
+  MemberTokenURI: '0xfBFB4E60A5a6f08790715d1435bd4F392b2f04f7',
+  CommunityRegistryInterface: '0x349C8aD4f5555aA9E4BCE37b2379266762882D4B',
+  RelayerReplicaCommunityRegistryInterface: '0x349C8aD4f5555aA9E4BCE37b2379266762882D4B',
+  RelayerCommunityRegistryInterface: '0x0000000000000000000000000000000000000000',
+  MemberRegistryInterfaceFactory: '0x9B709180dEb3393fE3201cDDA3Ba5556e133DaA1',
+  TextRecord: '0x950DA0957a0128Abe2Ec445Afea1C57f8B135d10',
+  PrimaryRecord: '0xf43EF51EeBd1885165BF5D3Bfb2CEe88FE2dD589'
+}
+
+const CONTRACT_ADDRESS_OP = {
+  BaseNodeValidator: '0xfF795E4B82c97e41e1eFA40239fE1A13763542CD',
+  SubNodeValidator: '0x713cE7659C61E36f3Cd3CC146BAB8412bEB2e1D6',
+  CommunityTokenURIValidator: '0x035bFdd94Bf49505fC74d2e7d52cF94732103c99',
+  CommunityTokenURI: '0x822Caeb805AffCce3D399BD08Abe1B2E35dcB06b',
+  CommunityRegistry: '0x2bc0d6915f02593d5c7387156997dda10566dC9a',
+  MemberRouter: '0x640216Ea5b2aC018b1d1FDB3F0a206F652C92574',
+  MemberProtocolFee: '0x2154E691091C650Aa2788BF43a878b7df932b0bD',
+  MemberRegistry: '0x0DbE6ad0C681E4055f18509cbdde2dbdF3626065',
+  MemberTokenomics: '0x4C35E2d49592992Bbf64334A7F632ACC454A2582',
+  MemberTokenURI: '0xfBFB4E60A5a6f08790715d1435bd4F392b2f04f7',
+  CommunityRegistryInterface: '0x349C8aD4f5555aA9E4BCE37b2379266762882D4B',
+  RelayerReplicaCommunityRegistryInterface: '0x349C8aD4f5555aA9E4BCE37b2379266762882D4B',
+  RelayerCommunityRegistryInterface: '0x0000000000000000000000000000000000000000',
+  MemberRegistryInterfaceFactory: '0x9B709180dEb3393fE3201cDDA3Ba5556e133DaA1',
+  TextRecord: '0x950DA0957a0128Abe2Ec445Afea1C57f8B135d10',
+  PrimaryRecord: '0xf43EF51EeBd1885165BF5D3Bfb2CEe88FE2dD589'
+}
+
+const CONTRACT_ADDRESS_BSC = {
+  BaseNodeValidator: '0xfF795E4B82c97e41e1eFA40239fE1A13763542CD',
+  SubNodeValidator: '0x713cE7659C61E36f3Cd3CC146BAB8412bEB2e1D6',
+  CommunityTokenURIValidator: '0x035bFdd94Bf49505fC74d2e7d52cF94732103c99',
+  CommunityTokenURI: '0x822Caeb805AffCce3D399BD08Abe1B2E35dcB06b',
+  CommunityRegistry: '0x2bc0d6915f02593d5c7387156997dda10566dC9a',
+  MemberRouter: '0x640216Ea5b2aC018b1d1FDB3F0a206F652C92574',
+  MemberProtocolFee: '0x2154E691091C650Aa2788BF43a878b7df932b0bD',
+  MemberRegistry: '0x0DbE6ad0C681E4055f18509cbdde2dbdF3626065',
+  MemberTokenomics: '0x4C35E2d49592992Bbf64334A7F632ACC454A2582',
+  MemberTokenURI: '0x1684E74EDA3e23e1D450B25BE82A49BD8B3401a1',
+  CommunityRegistryInterface: '0xfBFB4E60A5a6f08790715d1435bd4F392b2f04f7',
+  RelayerReplicaCommunityRegistryInterface: '0xfBFB4E60A5a6f08790715d1435bd4F392b2f04f7',
+  RelayerCommunityRegistryInterface: '0x0000000000000000000000000000000000000000',
+  MemberRegistryInterfaceFactory: '0x9B709180dEb3393fE3201cDDA3Ba5556e133DaA1',
+  TextRecord: '0x950DA0957a0128Abe2Ec445Afea1C57f8B135d10',
+  PrimaryRecord: '0xf43EF51EeBd1885165BF5D3Bfb2CEe88FE2dD589'
+}
+
 export const CONTRACT_MAP = isTestnet => isTestnet ? {
   [TestnetChainIDs.Goerli]: CONTRACT_ADDRESS_GOERLI,
   [TestnetChainIDs['Polygon Mumbai']]: CONTRACT_ADDRESS_MUMBAI,
@@ -187,7 +247,10 @@ export const CONTRACT_MAP = isTestnet => isTestnet ? {
   [TestnetChainIDs['BNB Smart Chain Testnet']]: CONTRACT_ADDRESS_BSC_TESTNET
 } : {
   [ChainIDs.Ethereum]: CONTRACT_ADDRESS_MAINNET,
-  [ChainIDs.Polygon]: CONTRACT_ADDRESS_POLYGON
+  [ChainIDs.Polygon]: CONTRACT_ADDRESS_POLYGON,
+  [ChainIDs.Base]: CONTRACT_ADDRESS_BASE,
+  [ChainIDs.OP]: CONTRACT_ADDRESS_OP,
+  [ChainIDs.BSC]: CONTRACT_ADDRESS_BSC,
 }
 
 export const ABIs = {

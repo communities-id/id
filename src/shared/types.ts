@@ -4,8 +4,8 @@ export enum ChainIDs {
   Ethereum = 1,
   Polygon = 137,
   BSC = 56,
-  // Base = 8453,
-  // OP = 10
+  Base = 8453,
+  OP = 10
 }
 
 export enum TestnetChainIDs {
