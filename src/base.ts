@@ -74,35 +74,24 @@ export default class SDKBase {
     return Number(chainId)
   }
 
-
-  async _searchBrandDID(name: string): Promise<BrandDID | null> {
-    const chainId = await this.getBrandDIDChainId(name)
-    if (chainId === 0) {
-      return null
-    }
+  async _searchBrandDIDByNode(node: BrandDID['node'], chainId: SupportedChainIds): Promise<BrandDID | null> {
     const contractMap = CONTRACT_MAP(this.isTestnet)
     const contractAddress = contractMap[chainId]
-    const _chainId = chainId as SupportedChainIds
-    const CommunityRegistry = this.getContract(contractAddress.CommunityRegistry, ABIs.CommunityRegistry, _chainId)
-    const MemberRegistryInterfaceFactory = this.getContract(contractAddress.MemberRegistryInterfaceFactory, ABIs.MemberRegistryInterfaceFactory, _chainId)
-    const MemberTokenomics = this.getContract(contractAddress.MemberTokenomics, ABIs.MemberTokenomics, _chainId)
-    const MemberTokenURI = this.getContract(contractAddress.MemberTokenURI, ABIs.MemberTokenURI, _chainId)
-    const node = await CommunityRegistry.getNode(keccak256(name))
+    const CommunityRegistry = this.getContract(contractAddress.CommunityRegistry, ABIs.CommunityRegistry, chainId)
+    const MemberRegistryInterfaceFactory = this.getContract(contractAddress.MemberRegistryInterfaceFactory, ABIs.MemberRegistryInterfaceFactory, chainId)
+    const MemberTokenomics = this.getContract(contractAddress.MemberTokenomics, ABIs.MemberTokenomics, chainId)
+    const MemberTokenURI = this.getContract(contractAddress.MemberTokenURI, ABIs.MemberTokenURI, chainId)
 
-    if (!node.node) {
-      return { chainId }
-    }
+    const registryInterface = await MemberRegistryInterfaceFactory.getMemberRegistryInterface(keccak256(node.node))
 
-    const registryInterface = await MemberRegistryInterfaceFactory.getMemberRegistryInterface(keccak256(name))
-
-    const state = await CommunityRegistry.getNodeState(keccak256(name))
+    const state = await CommunityRegistry.getNodeState(keccak256(node.node))
     const { registry, tokenId } = node
     const tokenUriString = await CommunityRegistry.tokenURI(tokenId)
     const tokenUri = parseTokenURI(tokenUriString)
     const priceModel = await MemberTokenomics.getCommunityConfig(registry)
 
-    const MemberRegistry = this.getContract(registry, ABIs.MemberRegistry, _chainId)
-    const MemberRegistryInterface = this.getContract(registryInterface, ABIs.MemberRegistryInterface, _chainId)
+    const MemberRegistry = this.getContract(registry, ABIs.MemberRegistry, chainId)
+    const MemberRegistryInterface = this.getContract(registryInterface, ABIs.MemberRegistryInterface, chainId)
 
     const config = await MemberRegistryInterface.getConfig()
     const imageBaseURI = await MemberTokenURI.getImageBaseURI(registry)
@@ -157,6 +146,42 @@ export default class SDKBase {
         durationUnit: Number(config.durationUnit)
       }
     }
+  }
+
+  async _searchBrandDID(name: string): Promise<BrandDID | null> {
+    const chainId = await this.getBrandDIDChainId(name)
+    if (chainId === 0) {
+      return null
+    }
+    const contractMap = CONTRACT_MAP(this.isTestnet)
+    const contractAddress = contractMap[chainId]
+    const _chainId = chainId as SupportedChainIds
+    const CommunityRegistry = this.getContract(contractAddress.CommunityRegistry, ABIs.CommunityRegistry, _chainId)
+
+    const node = await CommunityRegistry.getNode(keccak256(name))
+
+    if (!node.node) {
+      return { chainId }
+    }
+
+    const communityInfo = await this._searchBrandDIDByNode(node, _chainId)
+    return communityInfo
+  }
+
+  async _searchBrandDIDByTokenId(tokenId: number, chainId: SupportedChainIds): Promise<BrandDID | null> {
+    const contractMap = CONTRACT_MAP(this.isTestnet)
+    const contractAddress = contractMap[chainId]
+    const _chainId = chainId as SupportedChainIds
+    const CommunityRegistry = this.getContract(contractAddress.CommunityRegistry, ABIs.CommunityRegistry, _chainId)
+
+    const node = await CommunityRegistry.getNodeByTokenId(tokenId)
+
+    if (!node.node) {
+      return { chainId }
+    }
+
+    const communityInfo = await this._searchBrandDIDByNode(node, _chainId)
+    return communityInfo
   }
 
   async _searchUserDID(name: string, brandDID?: BrandDID): Promise<UserDID | null> {
@@ -223,6 +248,12 @@ export default class SDKBase {
         attributes: tokenUri.attributes,
       }
     }
+  }
+
+  async _searchUserDIDByTokenId(registry: string, tokenId: number, chainId: SupportedChainIds): Promise<UserDID | null> {
+    const MemberRegistry = this.getContract(registry, ABIs.MemberRegistry, chainId as SupportedChainIds)
+    const { node, baseNode } = await MemberRegistry.getFullNode(tokenId)
+    return this._searchUserDID(`${node}.${baseNode}`)
   }
 
 }

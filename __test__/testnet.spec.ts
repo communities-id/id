@@ -47,8 +47,8 @@ const WRITEABLE_OPTIONS: CommunitiesIDInput = {
   }
 }
 
-// const sdk = new CommunitiesID(OPTIONS)
-const sdk = new CommunitiesID(WRITEABLE_OPTIONS)
+const sdk = new CommunitiesID(OPTIONS)
+// const sdk = new CommunitiesID(WRITEABLE_OPTIONS)
 const { resolver, collector, operator } = sdk
 const ADDRESS = '0xca07bD081A9cc15b45D3Fe2BbE7762B923Ca4B29'
 
@@ -57,8 +57,18 @@ test("should searchBrandDID works well", async () => {
   console.log(res)
 });
 
+test("should searchBrandDIDByTokenId works well", async () => {
+  const res = await collector.searchBrandDIDByTokenId(2, 97)
+  console.log(res)
+});
+
 test("should searchUserDID works well", async () => {
-  const res = await collector.searchUserDID('a.did')
+  const res = await collector.searchUserDID('a.gene120')
+  console.log(res)
+});
+
+test("should searchUserDIDByTokenId works well", async () => {
+  const res = await collector.searchUserDIDByTokenId('0x8898e5e65bd4d3f117e1ba9f899780a7c51c7d57', 1, 5)
   console.log(res)
 });
 

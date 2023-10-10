@@ -7,13 +7,24 @@ export default class Collector extends SDKBase {
   }
 
   /**
-   * Get the barnd DID info by name
+   * Get the brand DID info by name
    *
-   * @param name - The name of the barnd DID
+   * @param name - The name of the brand DID
    *
    */
   async searchBrandDID(name: string): Promise<BrandDID | null> {
     return await this._searchBrandDID(name)
+  }
+
+  /**
+   * Get the brand DID info by tokenId
+   *
+   * @param tokenId - The token ID of this brand DID
+   * @param chainId - The chain ID that that this brand DID is on
+   *
+   */
+  async searchBrandDIDByTokenId(tokenId: number, chainId: SupportedChainIds): Promise<BrandDID | null> {
+    return await this._searchBrandDIDByTokenId(tokenId, chainId)
   }
 
   /**
@@ -24,6 +35,18 @@ export default class Collector extends SDKBase {
    */
   async searchUserDID(name: string, brandDID?: BrandDID): Promise<UserDID | null> {
     return await this._searchUserDID(name, brandDID)
+  }
+
+  /**
+   * Get the user DID info by tokenId
+   *
+   * @param registry - The registry address of this user DID
+   * @param tokenId - The token ID of this user DID
+   * @param chainId - The chain ID that that this user DID is on
+   *
+   */
+  async searchUserDIDByTokenId(registry: string, tokenId: number, chainId: SupportedChainIds): Promise<UserDID | null> {
+    return await this._searchUserDIDByTokenId(registry, tokenId, chainId)
   }
 
   /**
