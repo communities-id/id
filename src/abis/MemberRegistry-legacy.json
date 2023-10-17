@@ -405,11 +405,6 @@
             "internalType": "uint256",
             "name": "reserveDuration",
             "type": "uint256"
-          },
-          {
-            "internalType": "bool",
-            "name": "burnAnytime",
-            "type": "bool"
           }
         ],
         "internalType": "struct IMemberRegistry.Config",
@@ -973,11 +968,6 @@
             "internalType": "uint256",
             "name": "reserveDuration",
             "type": "uint256"
-          },
-          {
-            "internalType": "bool",
-            "name": "burnAnytime",
-            "type": "bool"
           }
         ],
         "internalType": "struct IMemberRegistry.Config",

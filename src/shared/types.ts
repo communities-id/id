@@ -80,8 +80,10 @@ export type BrandDID = {
     proofOfHolding: string[],
     signer: string,
     coin: string,
-    sequenceMode: number
-    durationUnit: number
+    sequenceMode: number,
+    durationUnit: number,
+    reserveDuration: number,
+    burnAnytime: boolean
   }
 }
 

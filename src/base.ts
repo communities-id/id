@@ -94,6 +94,18 @@ export default class SDKBase {
     const MemberRegistryInterface = this.getContract(registryInterface, ABIs.MemberRegistryInterface, chainId)
 
     const config = await MemberRegistryInterface.getConfig()
+    let registryConfig = {
+      reserveDuration: 0,
+      burnAnytime: null,
+    }
+
+    try {
+      registryConfig = await MemberRegistry.getConfig()
+    } catch (e) {
+      const MemberRegistry = this.getContract(registry, ABIs.MemberRegistryLegacy, chainId)
+      registryConfig = await MemberRegistry.getConfig()
+    }
+    
     const imageBaseURI = await MemberTokenURI.getImageBaseURI(registry)
 
     const owner = await CommunityRegistry.unsafeOwnerOf(tokenId)
@@ -143,7 +155,9 @@ export default class SDKBase {
         signer: config.signer,
         coin: config.coin,
         sequenceMode: config.sequenceMode,
-        durationUnit: Number(config.durationUnit)
+        durationUnit: Number(config.durationUnit),
+        reserveDuration: Number(registryConfig.reserveDuration),
+        burnAnytime: registryConfig.burnAnytime
       }
     }
   }
