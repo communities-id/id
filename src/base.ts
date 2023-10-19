@@ -272,8 +272,12 @@ export default class SDKBase {
 
   async _searchUserDIDByTokenId(registry: string, tokenId: number, chainId: SupportedChainIds): Promise<UserDID | null> {
     const MemberRegistry = this.getContract(registry, ABIs.MemberRegistry, chainId as SupportedChainIds)
-    const { node, baseNode } = await MemberRegistry.getFullNode(tokenId)
-    return this._searchUserDID(`${node}.${baseNode}`)
+    try {
+      const { node, baseNode } = await MemberRegistry.getFullNode(tokenId)
+      return this._searchUserDID(`${node}.${baseNode}`)
+    } catch (e) {
+      return null
+    }
   }
 
 }
