@@ -62,8 +62,8 @@ test("should searchBrandDIDByTokenId works well", async () => {
   console.log(res)
 });
 
-test("should searchUserDID works well", async () => {
-  const res = await collector.searchUserDID('a.gene120')
+test.only("should searchUserDID works well", async () => {
+  const res = await collector.searchUserDID('a.jtest7')
   console.log(res)
 });
 

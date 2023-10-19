@@ -85,6 +85,9 @@ export default class SDKBase {
     const registryInterface = await MemberRegistryInterfaceFactory.getMemberRegistryInterface(keccak256(node.node))
 
     const state = await CommunityRegistry.getNodeState(keccak256(node.node))
+    if (state === 0) {
+      return null
+    }
     const { registry, tokenId } = node
     const tokenUriString = await CommunityRegistry.tokenURI(tokenId)
     const tokenUri = parseTokenURI(tokenUriString)
@@ -235,6 +238,9 @@ export default class SDKBase {
       return null
     }
     const state = await MemberRegistry.getNodeState(memberNameHash)
+    if (state === 0) {
+      return null
+    }
     const { tokenId } = memberRegistryNode
     const tokenUriString = await MemberRegistry.tokenURI(tokenId)
     const tokenUri = parseTokenURI(tokenUriString)
