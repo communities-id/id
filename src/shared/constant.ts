@@ -31,7 +31,8 @@ export const CHAINS_NETWORK_TO_ID = isTestnet => isTestnet ?{
   'Polygon Mumbai': TestnetChainIDs['Polygon Mumbai'],
   'Base Goerli Testnet': TestnetChainIDs['Base Goerli Testnet'],
   'Optimism Goerli Testnet': TestnetChainIDs['Optimism Goerli Testnet'],
-  'BNB Smart Chain Testnet': TestnetChainIDs['BNB Smart Chain Testnet']
+  'BNB Smart Chain Testnet': TestnetChainIDs['BNB Smart Chain Testnet'],
+  'Scroll Sepolia Testnet': TestnetChainIDs['Scroll Sepolia Testnet']
 } : {
   Ethereum: ChainIDs.Ethereum,
   Polygon: ChainIDs.Polygon,
@@ -151,6 +152,25 @@ const CONTRACT_ADDRESS_BSC_TESTNET = {
   PrimaryRecord: '0xCdCA8D8B3b57632E1c5Ba947d66d21F81a124963'
 }
 
+const CONTRACT_ADDRESS_SCROLL_TESTNET = {
+  BaseNodeValidator: '0x04215617861853a2B00a5003137901e0CEf5364c',
+  SubNodeValidator: '0x3aB0B78B7a6A51602722730b5fCCDAeadAb7929f',
+  CommunityTokenURIValidator: '0x98eFDdF61749125BA1fd6A5B2ff6bF2816987583',
+  CommunityTokenURI: '0xfb249C3FFB28BfEd898751192a1AAD93268998f5',
+  CommunityRegistry: '0x8D63E3796B5972b1878A83eeF90fb6d27aBF6191',
+  MemberRouter: '0x88537F689fa5A33A17E25dBEe3622Dc6B959E188',
+  MemberProtocolFee: '0x69c1759CC06587213B896d4Aac2470eaf2DBE453',
+  MemberRegistry: '0x219D1BC97f3a7BBe1f7Fef245E1580DfdFeDC4C5',
+  MemberTokenomics: '0x31964b6d3Bb64144d45f9e85C5e665F0468A57b3',
+  MemberTokenURI: '0xdDfE9c93B11F66C442D4Ac9B1EcF645CF59D3480',
+  CommunityRegistryInterface: '0x973F4e839E1C6Ff80c84005266a0FB6afB125ad1',
+  RelayerReplicaCommunityRegistryInterface: '0x973F4e839E1C6Ff80c84005266a0FB6afB125ad1',
+  RelayerCommunityRegistryInterface: '0x0000000000000000000000000000000000000000',
+  MemberRegistryInterfaceFactory: '0xdE930A113A090a1fAD6CE23178B554cEDf704cC5',
+  TextRecord: '0x3710fAB64f4c2BAb8fb14b758496551C6893E3e7',
+  PrimaryRecord: '0xbc1D7AD62979A03e242b505cD4e15c84AE41Cfd6',
+}
+
 const CONTRACT_ADDRESS_MAINNET = {
   BaseNodeValidator: '0xf67e3121EBf047480B8D1dd7E721bb98a4FAA314',
   SubNodeValidator: '0x21CfDA4781FdCA2925015e8346De554462e7e974',
@@ -251,7 +271,8 @@ export const CONTRACT_MAP = isTestnet => isTestnet ? {
   [TestnetChainIDs['Polygon Mumbai']]: CONTRACT_ADDRESS_MUMBAI,
   [TestnetChainIDs['Base Goerli Testnet']]: CONTRACT_ADDRESS_BASE_GOERLI,
   [TestnetChainIDs['Optimism Goerli Testnet']]: CONTRACT_ADDRESS_OP_GOERLI,
-  [TestnetChainIDs['BNB Smart Chain Testnet']]: CONTRACT_ADDRESS_BSC_TESTNET
+  [TestnetChainIDs['BNB Smart Chain Testnet']]: CONTRACT_ADDRESS_BSC_TESTNET,
+  [TestnetChainIDs['Scroll Sepolia Testnet']]: CONTRACT_ADDRESS_SCROLL_TESTNET
 } : {
   [ChainIDs.Ethereum]: CONTRACT_ADDRESS_MAINNET,
   [ChainIDs.Polygon]: CONTRACT_ADDRESS_POLYGON,
