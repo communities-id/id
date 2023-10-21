@@ -10,6 +10,7 @@ export default class SDKBase {
   openseaSDK: OpenseaSDK;
   providers: Record<SupportedChains | 'arbitrum', ethers.providers.JsonRpcProvider>
   signerGenerator: Record<SupportedChains, (provider: ethers.providers.Provider) => ethers.Signer>
+  signer?: ethers.Signer;
 
   /**
    * Init the Communities ID resolver SDK
@@ -38,6 +39,8 @@ export default class SDKBase {
     if (this.signerGenerator[chainsIdToNetwork[chainId]]) {
       const writeableContract = contract.connect(this.signerGenerator[chainsIdToNetwork[chainId]](provider))
       return writeableContract
+    } else {
+      throw new Error('No signer found')
     }
   }
 

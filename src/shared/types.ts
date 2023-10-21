@@ -120,6 +120,8 @@ export type MintUserDIDOptions = {
   mintPrice?: BigNumber | number | string
   // The brand did that this user did belongs to, if you do not pass this, this function will get the brand did by itself
   brandDID?: BrandDID
+  // The wallet address to pay excees part money to
+  refundRecipient?: string
   // The callback function when the transaction is created
   onTransactionCreated?: (transaction: object) => any
 }
@@ -131,6 +133,8 @@ export type RenewUserDIDOptions = {
    brandDID?: BrandDID
    // The user did object that you want to renew, if you do not pass this, this function will get the brand did by itself
    userDID?: UserDID
+   // The wallet address to pay excees part money to
+   refundRecipient?: string
    // The callback function when the transaction is created
    onTransactionCreated?: (transaction: object) => any
 }

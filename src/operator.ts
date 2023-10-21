@@ -1,4 +1,4 @@
-import { ABIs, CHAINS_ID_TO_NETWORK, CONTRACT_MAP, MAIN_CHAIN_ID, ONE_ADDRESS } from "./shared/constant";
+import { ABIs, CONTRACT_MAP, MAIN_CHAIN_ID, MemberRegistryInterfaceUpgradeTime, ONE_ADDRESS } from "./shared/constant";
 import SDKBase from "./base";
 import { BurnUserDIDOptions, BrandDID, UserDID, MintUserDIDOptions, RenewUserDIDOptions, SupportedChainIds } from "./shared/types";
 import { keccak256, parseContractError } from "./shared/utils";
@@ -64,9 +64,15 @@ export default class Operator extends SDKBase {
       const { price, protocolFee } = await this.getMintUserDIDPrice(name, { brandDID: community })
       totalPrice = price.add(protocolFee)
     }
+    
     const { node, chainId } = community
 
-    const MemberRegistryInterface = this.getWriteContract(node.registryInterface, ABIs.MemberRegistryInterface, chainId as SupportedChainIds)
+    const isLegacyCommunity = node.createTime < MemberRegistryInterfaceUpgradeTime
+    const abi = isLegacyCommunity ? ABIs.MemberRegistryInterfaceLegacy :  ABIs.MemberRegistryInterface
+    const MemberRegistryInterface = this.getWriteContract(node.registryInterface, abi, chainId as SupportedChainIds)
+    if (!mintOptions.refundRecipient) {
+      mintOptions.refundRecipient = await MemberRegistryInterface.signer.getAddress()
+    }
     const config = await MemberRegistryInterface.getConfig()
     if (!config.publicMint && !config.holdingMint && !config.signatureMint) {
       throw new Error(`This community "${communityName}" does not support mint currently`);
@@ -74,7 +80,11 @@ export default class Operator extends SDKBase {
     const durationUnit = community.config.durationUnit
     try {
       if (config.publicMint && memberName.indexOf('.') === -1) {
-        const mintTx = await MemberRegistryInterface.publicMint(mintTo, durationUnit, memberName, { value: totalPrice.toString() })
+        const args = [mintTo, durationUnit, memberName]
+        if (!isLegacyCommunity) {
+          args.push(mintOptions.refundRecipient)
+        }
+        const mintTx = await MemberRegistryInterface.publicMint(...args, { value: totalPrice.toString() })
         if (mintOptions.onTransactionCreated) {
           mintOptions.onTransactionCreated(mintTx)
         }
@@ -85,7 +95,11 @@ export default class Operator extends SDKBase {
         const proofs = await this.openseaSDK.fetchProofOfHolding(config.proofOfHolding, mintTo, chainId as SupportedChainIds)
         if (proofs) {
           const { holdingContract, holdingTokenId } = proofs
-          const mintTx = await MemberRegistryInterface.holdingMint(mintTo, durationUnit, memberName, holdingContract, holdingTokenId, { value: totalPrice.toString() })
+          const args = [mintTo, durationUnit, memberName, holdingContract, holdingTokenId]
+          if (!isLegacyCommunity) {
+            args.push(mintOptions.refundRecipient)
+          }
+          const mintTx = await MemberRegistryInterface.holdingMint(...args, { value: totalPrice.toString() })
           if (mintOptions.onTransactionCreated) {
             mintOptions.onTransactionCreated(mintTx)
           }
@@ -103,7 +117,11 @@ export default class Operator extends SDKBase {
           day: durationUnit,
           deadline: 999999999999,
         };
-        const mintTx = await MemberRegistryInterface.signatureMint(commitment, mintOptions.signature, mintTo, { value: totalPrice.toString() })
+        const args = [commitment, mintOptions.signature, mintTo]
+        if (!isLegacyCommunity) {
+          args.push(mintOptions.refundRecipient)
+        }
+        const mintTx = await MemberRegistryInterface.signatureMint(...args, { value: totalPrice.toString() })
         if (mintOptions.onTransactionCreated) {
           mintOptions.onTransactionCreated(mintTx)
         }
@@ -150,7 +168,7 @@ export default class Operator extends SDKBase {
    * Renew a user DID
    *
    * @param name - The name of the user DID
-   * @param mintOptions - The options for mint user DID
+   * @param RenewUserDIDOptions - The options for mint user DID
    */
   async renewUserDID(name: string, renewOptions: RenewUserDIDOptions = {}) {
     const dotPosition = name.lastIndexOf(".");
@@ -173,9 +191,18 @@ export default class Operator extends SDKBase {
       totalPrice = price.add(protocolFee)
     }
     const { node, chainId, config } = community
-    const MemberRegistryInterface = this.getWriteContract(node.registryInterface, ABIs.MemberRegistryInterface, chainId as SupportedChainIds)
+    const isLegacyCommunity = node.createTime < MemberRegistryInterfaceUpgradeTime
+    const abi = isLegacyCommunity ? ABIs.MemberRegistryInterfaceLegacy :  ABIs.MemberRegistryInterface
+    const MemberRegistryInterface = this.getWriteContract(node.registryInterface, abi, chainId as SupportedChainIds)
+    if (!renewOptions.refundRecipient) {
+      renewOptions.refundRecipient = await MemberRegistryInterface.signer.getAddress()
+    }
     try {
-      const tx = await MemberRegistryInterface.renew(keccak256(memberName), config.durationUnit, { value: totalPrice.toString() });
+      const args = [keccak256(memberName), config.durationUnit]
+      if (!isLegacyCommunity) {
+        args.push(renewOptions.refundRecipient)
+      }
+      const tx = await MemberRegistryInterface.renew(...args, { value: totalPrice.toString() });
       if (renewOptions.onTransactionCreated) {
         renewOptions.onTransactionCreated(tx)
       }

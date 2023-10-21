@@ -51,3 +51,4 @@ export default class CommunitiesID {
 }
 
 export * from './shared/types'
+export * from './shared/constant'

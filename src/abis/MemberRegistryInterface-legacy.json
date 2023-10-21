@@ -579,11 +579,6 @@
         "internalType": "uint256",
         "name": "holdingTokenId_",
         "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "refundRecipient_",
-        "type": "address"
       }
     ],
     "name": "holdingMint",
@@ -716,11 +711,6 @@
         "internalType": "string",
         "name": "node_",
         "type": "string"
-      },
-      {
-        "internalType": "address",
-        "name": "refundRecipient_",
-        "type": "address"
       }
     ],
     "name": "publicMint",
@@ -745,11 +735,6 @@
         "internalType": "uint256",
         "name": "days_",
         "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "refundRecipient_",
-        "type": "address"
       }
     ],
     "name": "renew",
@@ -872,11 +857,6 @@
       {
         "internalType": "address",
         "name": "manualOwner_",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "refundRecipient_",
         "type": "address"
       }
     ],
