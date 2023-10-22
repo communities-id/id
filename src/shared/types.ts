@@ -5,7 +5,8 @@ export enum ChainIDs {
   Polygon = 137,
   BSC = 56,
   Base = 8453,
-  OP = 10
+  OP = 10,
+  Scroll = 534352
 }
 
 export enum TestnetChainIDs {

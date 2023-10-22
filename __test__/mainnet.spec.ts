@@ -8,12 +8,24 @@ const OPTIONS: CommunitiesIDInput = {
   Ethereum: {
     RPCUrl: process.env.RPC_URL || ''
   },
+  Polygon: {
+    RPCUrl: ''
+  },
+  Base: {
+    RPCUrl: ''
+  },
+  OP: {
+    RPCUrl: ''
+  },
   BSC: {
     RPCUrl: process.env.RPC_URL || ''
   },
+  Scroll: {
+    RPCUrl: ''
+  },
   arbitrum: {
     RPCUrl: process.env.RPC_URL || ''
-  }
+  },
 }
 
 

@@ -13,19 +13,30 @@ npm i @communitiesid/id
 ``` javascript
 import CommunitiesID from '@communitiesid/id';
 
-const options: CommunitiesIDInput = {
-  mainnet: {
-    RPCUrl: "<rpc url for mainnet>",
-    alchemyKey: "<your alchemy key for mainnet network>",
-    generateSigner: provider => new ethers.Wallet('<your private key>', provider)
+const OPTIONS: CommunitiesIDInput = {
+  isTestnet: false,
+  openseaKey: '<Your opensea api key>',
+  Ethereum: {
+    RPCUrl: '<Your rpc url for this chain>'
   },
-  // binance and arbitrum chain only support resolve name and lookup address, so only RPC url is nedded
-  binance: {
-    RPCUrl: "<rpc url for binance>",
+  Polygon: {
+    RPCUrl: '<Your rpc url for this chain>'
+  },
+  Base: {
+    RPCUrl: '<Your rpc url for this chain>'
+  },
+  OP: {
+    RPCUrl: '<Your rpc url for this chain>'
+  },
+  BSC: {
+    RPCUrl: '<Your rpc url for this chain>'
+  },
+  Scroll: {
+    RPCUrl: '<Your rpc url for this chain>'
   },
   arbitrum: {
-    RPCUrl: "<rpc url for arbitrum>",
-  }
+    RPCUrl: '<Your rpc url for this chain>'
+  },
 }
 
 const { resolver, collector, operator } = new CommunitiesID(options);
@@ -34,17 +45,26 @@ const { resolver, collector, operator } = new CommunitiesID(options);
 If you want to use this sdk on communitiesID testnet, you can initialize it like this:
 
 ``` javascript
-const options: CommunitiesIDInput = {
+const OPTIONS: CommunitiesIDInput = {
   isTestnet: true,
-  goerli: {
-    RPCUrl: "<rpc url for goerli>",
-    alchemyKey: "<your alchemy key for goerli network>",
-    generateSigner: provider => new ethers.Wallet('<your private key>', provider)
+  openseaKey: '<Your opensea api key>',
+  Goerli: {
+    RPCUrl: '<Your rpc url for this chain>',
   },
-  mumbai: {
-    RPCUrl: "<rpc url for mumbai>",
-    alchemyKey: "<your alchemy key for mumbai network>",
-    generateSigner: provider => new ethers.Wallet('<your private key>', provider)
+  'Polygon Mumbai': {
+    RPCUrl: '<Your rpc url for this chain>',
+  },
+  'Base Goerli Testnet': {
+    RPCUrl: '<Your rpc url for this chain>',
+  },
+  'Optimism Goerli Testnet': {
+    RPCUrl: '<Your rpc url for this chain>',
+  },
+  'BNB Smart Chain Testnet': {
+    RPCUrl: '<Your rpc url for this chain>',
+  },
+  'Scroll Sepolia Testnet': {
+    RPCUrl: '<Your rpc url for this chain>',
   }
 }
 

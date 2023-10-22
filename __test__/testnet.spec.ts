@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import CommunitiesID, { CommunitiesIDInput } from "../src/index";
+import CommunitiesID, { CONTRACT_MAP, CommunitiesIDInput } from "../src/index";
 require('dotenv').config()
 
 const OPTIONS: CommunitiesIDInput = {
@@ -19,6 +19,9 @@ const OPTIONS: CommunitiesIDInput = {
   },
   'BNB Smart Chain Testnet': {
     RPCUrl: process.env.BSC_RPC_URL || '',
+  },
+  'Scroll Sepolia Testnet': {
+    RPCUrl: process.env.SCROLL_SEPOLIA_RPC_URL || ''
   }
 }
 
@@ -43,6 +46,10 @@ const WRITEABLE_OPTIONS: CommunitiesIDInput = {
   },
   'BNB Smart Chain Testnet': {
     RPCUrl: process.env.BSC_RPC_URL || '',
+    generateSigner: provider => new ethers.Wallet(process.env.PRIVATE_KEY || '', provider)
+  },
+  'Scroll Sepolia Testnet': {
+    RPCUrl: process.env.SCROLL_SEPOLIA_RPC_URL || '',
     generateSigner: provider => new ethers.Wallet(process.env.PRIVATE_KEY || '', provider)
   }
 }
