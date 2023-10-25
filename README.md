@@ -164,7 +164,7 @@ Input:
 
 |Name|Type|Description|required|
 |---|---|---|---|
-|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|
+|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|true|
 
 Output: `Promise<object[]>`
 
@@ -185,7 +185,7 @@ Input:
 |Name|Type|Description|required|
 |---|---|---|---|
 |address|string|The address you want to get brand DIDs|true|
-|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|
+|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|true|
 
 Output: `Promise<object[]>`
 
@@ -206,7 +206,7 @@ Input:
 |Name|Type|Description|required|
 |---|---|---|---|
 |address|string|The address you want to get user DIDs|true|
-|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|
+|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|true|
 
 Output: `Promise<object[]>`
 
@@ -227,7 +227,7 @@ Input:
 |Name|Type|Description|required|
 |---|---|---|---|
 |address|string|The address you want to get brand DIDs|true|
-|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|
+|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|true|
 
 Output: `Promise<object[]>`
 
@@ -249,7 +249,7 @@ Input:
 |---|---|---|---|
 |name|string|The name of the brand DID, if registry and chain is provided, the name will be ignored, and the query efficiency will improve|true|
 |registry|string|The registry of this brand DID|false|
-|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|
+|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|true|
 
 Output: `Promise<object[]>`
 
@@ -290,7 +290,7 @@ Input:
 
 |Name|Type|Description|required|
 |---|---|---|---|
-|address|string|The address of the user DID|true|
+|address|string|The address of the user DID|true|true|
 
 Output: `Promise<string | null>`
 
