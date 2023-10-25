@@ -93,6 +93,27 @@ const res = await collector.searchBrandDID('did')
 
 ---
 
+#### ```collector.searchBrandDIDByTokenId```
+
+Get the brand DID info by name
+
+Input:
+
+|Name|Type|Description|required|
+|---|---|---|---|
+|tokenId|number|The token ID of this brand DID|true|
+|chainId|SupportedChainIds|The chain ID that that this brand DID is on|true|
+
+Output: `Promise<BrandDID | null>`
+
+Example: 
+
+``` javascript
+const res = await collector.searchBrandDIDByTokenId(1, 80001)
+```
+
+---
+
 #### ```collector.searchUserDID```
 
 Get the user DID info by name
@@ -113,9 +134,31 @@ const res = await collector.searchUserDID('a.did')
 
 ---
 
+#### ```collector.searchUserDIDByTokenId```
+
+Get the brand DID info by name
+
+Input:
+
+|Name|Type|Description|required|
+|---|---|---|---|
+|registry|string|The registry address of this user DID|true|
+|tokenId|number|The token ID of this brand DID|true|
+|chainId|SupportedChainIds|The chain ID that that this brand DID is on|true|
+
+Output: `Promise<UserDID | null>`
+
+Example: 
+
+``` javascript
+const res = await collector.searchUserDIDByTokenId('0x123...', 1, 80001)
+```
+
+---
+
 #### ```collector.getAllBrandDIDs```
 
-Get all brand DID in specific chain, only works when you provide the alchemy key of this chain
+Get all brand DID in specific chain, if you call this on mainnet, opensea Key is required required
 
 Input:
 
@@ -135,7 +178,7 @@ const res = await collector.getAllBrandDIDs('goerli')
 
 #### ```collector.getAllBrandDIDsOwnedByAddress```
 
-Get all brand DIDs owned by an address in specific chain, only works when you provide the alchemy key of this chain
+Get all brand DIDs owned by an address in specific chain, if you call this on mainnet, opensea Key is required
 
 Input:
 
@@ -156,7 +199,7 @@ const res = await collector.getAllBrandDIDsOwnedByAddress('0x0000000000000000000
 
 #### ```collector.getAllUserDIDsOwnedByAddress```
 
-Get all user DIDs owned by an address in specific chain, only works when you provide the alchemy key of this chain
+Get all user DIDs owned by an address in specific chain, if you call this on mainnet, opensea Key is required
 
 Input:
 
@@ -177,7 +220,7 @@ const res = await collector.getAllUserDIDsOwnedByAddress('0x00000000000000000000
 
 #### ```collector.getAllBrandDIDsJoinedByAddress```
 
-Get all brand DIDs joined by an address in specific chain, only works when you provide the alchemy key of this chain
+Get all brand DIDs joined by an address in specific chain, if you call this on mainnet, opensea Key is required
 
 Input:
 
@@ -259,6 +302,23 @@ const res = await resolver.lookupAddress('0x000000000000000000000000000000000000
 
 ### operator
 
+#### ```operator.setSigner```
+Set signer for write operation. For some secnarios, like frontend, we are not able to get the private key of the user, so we need to set signer for write operation.
+
+Input:
+
+|Name|Type|Description|required|
+|---|---|---|---|
+|signer|ethers.Signer|ethers.Signer object|true|
+
+Example: 
+
+``` javascript
+communitiesidSDK.operator.setSigner(signer)
+```
+
+---
+
 #### ```operator.getMintUserDIDPrice```
 Get the price of minting a user DID
 
@@ -297,6 +357,7 @@ Input:
 |options.signature|string|The signature to mint user DID|false|
 |options.owner|string|The owner in signature|false|
 |options.mintPrice|BigNumber \| number \| string|The price to mint this brand DID, if you do not pass this, this function will get the price by itself|false|
+|options.refundRecipient|string|If you passed higher value than mint price, the excees part will transfer to this wallet, default is address of signer|false|
 |options.brandDID|BrandDID|The brand DID that this user DID belongs to, if you do not pass this, this function will get the brand DID by itself|false|
 |options.onTransactionCreated|(transaction: object) => any|The callback function when the transaction is created|false|
 
@@ -346,6 +407,7 @@ Input:
 |options.mintPrice|BigNumber \| number \| string |The price to mint this brand DID, if you do not pass this, this function will get the price by itself|false|
 |options.brandDID|BrandDID|The brand DID that this user DID belongs to, if you do not pass this, this function will get the brand DID by itself|false|
 |options.userDID|UserDID|The user DID object that you want to renew, if you do not pass this, this function will get the brand DID by itself|false|
+|options.refundRecipient|string|If you passed higher value than mint price, the excees part will transfer to this wallet, default is address of signer|false|
 |options.onTransactionCreated|(transaction: object) => any|The callback function when the transaction is created|false|
 
 
