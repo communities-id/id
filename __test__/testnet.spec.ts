@@ -12,7 +12,7 @@ const OPTIONS: CommunitiesIDInput = {
     RPCUrl: process.env.MUMBAI_RPC_URL || '',
   },
   'Base Goerli Testnet': {
-    RPCUrl: process.env.BASE_RPC_URL || '',
+    RPCUrl: process.env.BASE_GOERLI_RPC_URL || '',
   },
   'Optimism Goerli Testnet': {
     RPCUrl: process.env.OP_RPC_URL || '',
@@ -60,16 +60,16 @@ const { resolver, collector, operator } = sdk
 const ADDRESS = '0xca07bD081A9cc15b45D3Fe2BbE7762B923Ca4B29'
 
 test("should searchBrandDID works well", async () => {
-  const res = await collector.searchBrandDID('gene130')
+  const res = await collector.searchBrandDID('gene208')
   console.log(res)
 });
 
-test("should searchBrandDIDByTokenId works well", async () => {
-  const res = await collector.searchBrandDIDByTokenId(2, 97)
+test.only("should searchBrandDIDByTokenId works well", async () => {
+  const res = await collector.searchBrandDIDByTokenId(7, 84531)
   console.log(res)
 });
 
-test.only("should searchUserDID works well", async () => {
+test("should searchUserDID works well", async () => {
   const res = await collector.searchUserDID('a.jtest7')
   console.log(res)
 });

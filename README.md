@@ -164,14 +164,14 @@ Input:
 
 |Name|Type|Description|required|
 |---|---|---|---|
-|chain|'goerli' \| 'mumbai' \| 'mainnet'|The chain that you want to get communities|true|
+|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|
 
 Output: `Promise<object[]>`
 
 Example: 
 
 ``` javascript
-const res = await collector.getAllBrandDIDs('goerli')
+const res = await collector.getAllBrandDIDs(5)
 ```
 
 ---
@@ -185,14 +185,14 @@ Input:
 |Name|Type|Description|required|
 |---|---|---|---|
 |address|string|The address you want to get brand DIDs|true|
-|chain|'goerli' \| 'mumbai' \| 'mainnet'|The chain that you want to get brand DIDs|true|
+|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|
 
 Output: `Promise<object[]>`
 
 Example: 
 
 ``` javascript
-const res = await collector.getAllBrandDIDsOwnedByAddress('0x0000000000000000000000000000000000000000', 'mainnet')
+const res = await collector.getAllBrandDIDsOwnedByAddress('0x0000000000000000000000000000000000000000', 5)
 ```
 
 ---
@@ -206,14 +206,14 @@ Input:
 |Name|Type|Description|required|
 |---|---|---|---|
 |address|string|The address you want to get user DIDs|true|
-|chain|'goerli' \| 'mumbai' \| 'mainnet'|The chain that you want to get user DIDs|true|
+|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|
 
 Output: `Promise<object[]>`
 
 Example: 
 
 ``` javascript
-const res = await collector.getAllUserDIDsOwnedByAddress('0x0000000000000000000000000000000000000000', 'mainnet')
+const res = await collector.getAllUserDIDsOwnedByAddress('0x0000000000000000000000000000000000000000', 5)
 ```
 
 ---
@@ -227,14 +227,14 @@ Input:
 |Name|Type|Description|required|
 |---|---|---|---|
 |address|string|The address you want to get brand DIDs|true|
-|chain|'goerli' \| 'mumbai' \| 'mainnet'|The chain that you want to get brand DIDs|true|
+|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|
 
 Output: `Promise<object[]>`
 
 Example: 
 
 ``` javascript
-const res = await collector.getAllBrandDIDsJoinedByAddress('0x0000000000000000000000000000000000000000', 'mainnet')
+const res = await collector.getAllBrandDIDsJoinedByAddress('0x0000000000000000000000000000000000000000', 5)
 ```
 
 ---
@@ -247,9 +247,9 @@ Input:
 
 |Name|Type|Description|required|
 |---|---|---|---|
-|name|string|TThe name of the brand DID, if registry and chain is provided, the name will be ignored, and the query efficiency will improve|true|
+|name|string|The name of the brand DID, if registry and chain is provided, the name will be ignored, and the query efficiency will improve|true|
 |registry|string|The registry of this brand DID|false|
-|chain|'goerli' \| 'mumbai' \| 'mainnet'|The chain this brand DID is on|false|
+|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|
 
 Output: `Promise<object[]>`
 
@@ -257,7 +257,7 @@ Example:
 
 ``` javascript
 const res = await collector.getAllUserDIDsOwnedByBrand('did')
-const res = await collector.getAllUserDIDsOwnedByBrand('', '0x123', 'mainnet')
+const res = await collector.getAllUserDIDsOwnedByBrand('', '0x123', 5)
 ```
 
 ### resolver
