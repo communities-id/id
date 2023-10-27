@@ -3,6 +3,7 @@ import { ABIs, CONTRACT_MAP, MAIN_CHAIN_ID } from "./shared/constant";
 import SDKBase from "./base";
 import { keccak256 } from "./shared/utils";
 import { SupportedChainIds } from "./shared/types";
+import { COMMUNITY_ADDRESS_TO_NAME_MAP_MAINNET, COMMUNITY_ADDRESS_TO_NAME_MAP_TESTNET, COMMUNITY_HASH_TO_ADDRESS_MAP_MAINNET, COMMUNITY_HASH_TO_ADDRESS_MAP_TESTNET, COMMUNITY_NAME_TO_ADDRESS_MAP_MAINNET, COMMUNITY_NAME_TO_ADDRESS_MAP_TESTNET, COMMUNITY_NAME_TO_CHAINID_MAP_MAINNET, COMMUNITY_NAME_TO_CHAINID_MAP_TESTNET } from './shared/cache';
 
 export default class Resolver extends SDKBase {
   constructor(options) {
@@ -22,14 +23,26 @@ export default class Resolver extends SDKBase {
     }
     const memberName = name.substring(0, dotPosition);
     const communityName = name.substring(dotPosition + 1);
-    const chainId = await this.getBrandDIDChainId(communityName)
+    let chainId = 0
+    const nameToChainId = this.isTestnet ? COMMUNITY_NAME_TO_CHAINID_MAP_TESTNET : COMMUNITY_NAME_TO_CHAINID_MAP_MAINNET
+    const nameToAddress = this.isTestnet ? COMMUNITY_NAME_TO_ADDRESS_MAP_TESTNET : COMMUNITY_NAME_TO_ADDRESS_MAP_TESTNET
+    if (nameToChainId[communityName]) {
+      chainId = nameToChainId[communityName]
+    } else {
+      chainId = await this.getBrandDIDChainId(communityName)
+    }
     if (chainId !== 0) {
-      const contractMap = CONTRACT_MAP(this.isTestnet)
-      const contractAddress = contractMap[chainId]
-      const communityRegistryContract = this.getContract(contractAddress.CommunityRegistry, ABIs.CommunityRegistry, chainId as SupportedChainIds)
-      const communityNode = await communityRegistryContract.getNode(keccak256(communityName))
-      if (communityNode.node) {
-        const { registry } = communityNode
+      let registry = ''
+      if (nameToAddress[communityName]) {
+        registry = nameToAddress[communityName]
+      } else {
+        const contractMap = CONTRACT_MAP(this.isTestnet)
+        const contractAddress = contractMap[chainId]
+        const communityRegistryContract = this.getContract(contractAddress.CommunityRegistry, ABIs.CommunityRegistry, chainId as SupportedChainIds)
+        const communityNode = await communityRegistryContract.getNode(keccak256(communityName))
+        registry = communityNode.registry
+      }
+      if (registry) {
         const MemberRegistry = this.getContract(registry, ABIs.MemberRegistry, chainId as SupportedChainIds)
         const owner = await MemberRegistry.ownerOfNode(keccak256(memberName))
         return owner
@@ -58,19 +71,30 @@ export default class Resolver extends SDKBase {
     const PrimaryRecord = this.getContract(contractMap[mainChainId].PrimaryRecord, ABIs.PrimaryRecord, mainChainId);
     const res = await PrimaryRecord.getPrimaryRecord(address)
     if (Number(res.node) && Number(res.baseNode)) {
-      const chainId = await this.getBrandDIDChainId(res.baseNode, false)
-      const contractAddress = contractMap[chainId]
-      const CommunityRegistry = this.getContract(contractAddress.CommunityRegistry, ABIs.CommunityRegistry, chainId as SupportedChainIds)
-      const node = await CommunityRegistry.getNode(res.baseNode)
-      if (node.node) {
-        const { registry } = node
+      let registry = '', baseName = '', chainId = 0
+      const hashToAddress = this.isTestnet ? COMMUNITY_HASH_TO_ADDRESS_MAP_TESTNET : COMMUNITY_HASH_TO_ADDRESS_MAP_MAINNET
+      const addressToName = this.isTestnet ? COMMUNITY_ADDRESS_TO_NAME_MAP_TESTNET : COMMUNITY_ADDRESS_TO_NAME_MAP_MAINNET
+      const nameToChainId = this.isTestnet ? COMMUNITY_NAME_TO_CHAINID_MAP_TESTNET : COMMUNITY_NAME_TO_CHAINID_MAP_MAINNET
+      if (hashToAddress[res.baseNode]) {
+        registry = hashToAddress[res.baseNode]
+        baseName = addressToName[registry]
+        chainId = nameToChainId[baseName]
+      } else {
+        chainId = await this.getBrandDIDChainId(res.baseNode, false)
+        const contractAddress = contractMap[chainId]
+        const CommunityRegistry = this.getContract(contractAddress.CommunityRegistry, ABIs.CommunityRegistry, chainId as SupportedChainIds)
+        const node = await CommunityRegistry.getNode(res.baseNode)
+        registry = node.registry
+        baseName = node.node
+      }
+      if (registry) {
         const MemberRegistry = this.getContract(registry, ABIs.MemberRegistry, chainId as SupportedChainIds)
         const memberNode = await MemberRegistry.getNode(res.node)
         if (memberNode.node) {
           const { tokenId } = memberNode
           const owner = await MemberRegistry.unsafeOwnerOf(tokenId)
           if (owner.toLowerCase() === address.toLowerCase()) {
-            return `${memberNode.node}.${node.node}`
+            return `${memberNode.node}.${baseName}`
           }
         }
       }

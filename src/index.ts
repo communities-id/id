@@ -30,7 +30,9 @@ export default class CommunitiesID {
       if (i === 'isTestnet') {
         continue
       }
-      this.providers[i] = options[i].RPCUrl && new ethers.providers.JsonRpcProvider(options[i].RPCUrl)
+      if (options[i].RPCUrl) {
+        this.providers[i] = options[i].RPCUrl.indexOf('wss://') > -1 ? new ethers.providers.WebSocketProvider(options[i].RPCUrl) : new ethers.providers.JsonRpcProvider(options[i].RPCUrl)
+      }
       this.signerGenerator[i] = options[i].generateSigner
     }
 
