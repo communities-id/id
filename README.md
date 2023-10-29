@@ -15,7 +15,7 @@ DaaS refers to providing a permissionless & customizable DID framework that allo
 
 ## 🤝 Integration with Chainbase
 
-The Communities ID SDK enables forward and reverse resolution between wallet addresses and DIDs. To achieve this functionality, it's necessary to retrieve the list of Brand DIDs and find all the User DIDs under a specific Brand DID. Communities ID utilizes Chainbase's services to implement the [getAllBrandDIDs](https://github.com/communities-id/id/blob/chainbase/README.md#collectorgetallbranddids) and [getAllUserDIDsOwnedByBrand](https://github.com/communities-id/id/blob/chainbase/README.md#collectorgetalluserdidsownedbybrand) functions.
+The Communities ID SDK enables forward and reverse resolution between wallet addresses and DIDs. To achieve this functionality, it's necessary to retrieve the list of Brand DIDs and find all the User DIDs under a specific Brand DID. Communities ID utilizes Chainbase's services to implement the [collector.getAllBrandDIDs](https://github.com/communities-id/id/blob/chainbase/README.md#collectorgetallbranddids) and [collector.getAllUserDIDsOwnedByBrand](https://github.com/communities-id/id/blob/chainbase/README.md#collectorgetalluserdidsownedbybrand) functions.
 
 ## 🔗Links 
 
