@@ -3,11 +3,13 @@ import { keccak256, parseTokenURI } from "./shared/utils";
 import { BrandDID, UserDID, SupportedChainIds, SupportedChains, TestnetChainIDs } from "./shared/types";
 import { CHAINS_ID_TO_NETWORK, CONTRACT_MAP, MAIN_CHAIN_ID, ABIs, ONE_ADDRESS } from "./shared/constant";
 import OpenseaSDK from "./shared/opensea";
+import ChainbaseSDK from "./shared/chainbase";
 
 export default class SDKBase {
   version: string
   isTestnet: boolean
   openseaSDK: OpenseaSDK;
+  chainbaseSDK: ChainbaseSDK;
   providers: Record<SupportedChains | 'arbitrum', ethers.providers.JsonRpcProvider>
   signerGenerator: Record<SupportedChains, (provider: ethers.providers.Provider) => ethers.Signer>
   signer?: ethers.Signer;
@@ -18,11 +20,12 @@ export default class SDKBase {
    * @param options - The options for initializing the SDK
    *
    */
-  constructor({ isTestnet, providers, openseaKey, signerGenerator }) {
+  constructor({ isTestnet, providers, openseaKey, chainbaseKey, signerGenerator }) {
     this.isTestnet = isTestnet
     this.providers = providers
     this.signerGenerator = signerGenerator
     this.openseaSDK = new OpenseaSDK(openseaKey, this.isTestnet)
+    this.chainbaseSDK = new ChainbaseSDK(chainbaseKey, this.isTestnet)
   }
 
   getContract(address: string, abi: any, chainId: SupportedChainIds) {

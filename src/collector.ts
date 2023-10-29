@@ -55,7 +55,7 @@ export default class Collector extends SDKBase {
    * @param chainId - The chain ID that you want to get brand DIDs
    */
   async getAllBrandDIDs(chainId: SupportedChainIds): Promise<object[]> {
-    const res = await this.openseaSDK.fetchAllCommunities(chainId)
+    const res = await this.chainbaseSDK.fetchAllCommunities(chainId)
     return res
   }
 
@@ -115,11 +115,11 @@ export default class Collector extends SDKBase {
         return null
       }
       const { node, chainId } = commnuityInfo
-      const res = await this.openseaSDK.fetchAllMembersOfCommunity(node.registry, chainId as SupportedChainIds)
+      const res = await this.chainbaseSDK.fetchAllMembersOfCommunity(node.registry, chainId as SupportedChainIds)
       return res
     }
 
-    const res = await this.openseaSDK.fetchAllMembersOfCommunity(registry, chainID)
+    const res = await this.chainbaseSDK.fetchAllMembersOfCommunity(registry, chainID)
     return res
   }
 }

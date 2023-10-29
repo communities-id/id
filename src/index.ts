@@ -8,6 +8,7 @@ export default class CommunitiesID {
   version: string
   isTestnet: boolean
   openseaKey: string
+  chainbaseKey: string
   providers: Partial<Record<SupportedChains | 'arbitrum', ethers.providers.JsonRpcProvider>>
   signerGenerator: Partial<Record<SupportedChains, (provider: ethers.providers.Provider) => ethers.Signer>>
   resolver: Resolver
@@ -24,6 +25,7 @@ export default class CommunitiesID {
     this.version = "0.2.1";
     this.isTestnet = !!options.isTestnet
     this.openseaKey = options.openseaKey
+    this.chainbaseKey = options.chainbaseKey
     this.providers = {}
     this.signerGenerator = {}
     for (let i in options) {
@@ -44,6 +46,7 @@ export default class CommunitiesID {
       isTestnet: this.isTestnet,
       providers: this.providers,
       openseaKey: this.openseaKey,
+      chainbaseKey: this.chainbaseKey,
       signerGenerator: this.signerGenerator,
     }
     this.resolver = new Resolver(initOptions)

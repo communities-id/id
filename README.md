@@ -47,6 +47,7 @@ import CommunitiesID from '@communitiesid/id';
 const OPTIONS: CommunitiesIDInput = {
   isTestnet: false,
   openseaKey: '<Your opensea api key>',
+  chainbaseKey: '<Your chainbase api key>',
   Ethereum: {
     RPCUrl: '<Your rpc url for this chain>'
   },
@@ -79,6 +80,7 @@ If you want to use this sdk on communitiesID testnet, you can initialize it like
 const OPTIONS: CommunitiesIDInput = {
   isTestnet: true,
   openseaKey: '<Your opensea api key>',
+  chainbaseKey: '<Your chainbase api key>',
   Goerli: {
     RPCUrl: '<Your rpc url for this chain>',
   },
@@ -189,7 +191,7 @@ const res = await collector.searchUserDIDByTokenId('0x123...', 1, 80001)
 
 #### ```collector.getAllBrandDIDs```
 
-Get all brand DID in specific chain, if you call this on mainnet, opensea Key is required required
+Get all brand DID in specific chain, if you call this on mainnet, chainbase Key is required
 
 Input:
 
@@ -272,7 +274,7 @@ const res = await collector.getAllBrandDIDsJoinedByAddress('0x000000000000000000
 
 #### ```collector.getAllUserDIDsOwnedByBrand```
 
-Get all user DIDs under specific brand DID, only works when you provide the alchemy key of the chain which brand DID on
+Get all user DIDs under specific brand DID, chain base key is required for using this method
 
 Input:
 

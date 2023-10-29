@@ -5,6 +5,7 @@ require('dotenv').config()
 const OPTIONS: CommunitiesIDInput = {
   isTestnet: false,
   openseaKey: process.env.OPENSEA_KEY || '',
+  chainbaseKey: process.env.CHAINBASE_KEY || '',
   Ethereum: {
     RPCUrl: process.env.RPC_URL || ''
   },
@@ -62,8 +63,8 @@ test("should lookupAddress works well", async () => {
   console.log(res)
 });
 
-test("should getAllBrandDIDs works well", async () => {
-  const res: any[] = await collector.getAllBrandDIDs(5)
+test.only("should getAllBrandDIDs works well", async () => {
+  const res: any[] = await collector.getAllBrandDIDs(137)
   console.log(res.map(v => v.name))
 });
 
@@ -72,12 +73,12 @@ test("should getAllBrandDIDsOwnedByAddress works well", async () => {
   console.log(res.map(v => v.name))
 });
 
-test.only("should getAllUserDIDsOwnedByAddress works well", async () => {
+test("should getAllUserDIDsOwnedByAddress works well", async () => {
   const res: any[] = await collector.getAllUserDIDsOwnedByAddress(ADDRESS, 5)
   console.log(res.map(v => v.name))
 });
 
-test.only("should getAllBrandDIDsJoinedByAddress works well", async () => {
+test("should getAllBrandDIDsJoinedByAddress works well", async () => {
   const res: any[] = await collector.getAllBrandDIDsJoinedByAddress(ADDRESS, 5)
   console.log(res)
 });

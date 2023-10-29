@@ -28,6 +28,7 @@ export type mainnetCommunitiesIDInput = Record<keyof typeof ChainIDs, {
 }> & { 
   isTestnet?: false,
   openseaKey: string,
+  chainbaseKey: string,
   arbitrum: { RPCUrl: string }
 }
 
@@ -36,6 +37,7 @@ export type testnetCommunitiesIDInput = Record<keyof typeof TestnetChainIDs, {
   generateSigner?: (provider: ethers.providers.Provider) => ethers.Signer
 }> & {
   openseaKey: string,
+  chainbaseKey: string,
   isTestnet: true
 }
 
