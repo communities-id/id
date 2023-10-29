@@ -1,4 +1,35 @@
+# 🆔 Communities ID
+
+Communities ID is the first "Decentralized Identity as a Service" (DaaS) protocol. We provide a “Username.Brandname” style exclusive yet open DID system for crypto projects.
+
+DaaS refers to providing a permissionless & customizable DID framework that allows anyone to create their own exclusive top-level domain (Brand DID) without any coding. Based on this Brand DID, one can build an identity system tailored for various business scenarios. The subdomains (User DID) not only possess the universal wallet resolution capability of traditional domain NFTs but also offer a rich array of extended features within their respective ecosystems.
+
+## 💎 Key Features
+
+**Omnichain:** 1 User DID for multiple networks. Fully EVM-compatible plus plans to expand to non-EVM chains like TON.
+
+**Bridging:** Not only connects various dApps ensuring high interoperability but also integrates with Telegram bots, bridging the gap with native Web2 social scenarios.
+
+**Highly Customizable**: Rich economic models and pricing strategies to align with specific community management needs.
+
+## 🔗Links 
+
+Website: https://www.communities.id/
+
+Wiki: https://docs.communities.id/
+
+Twitter: https://twitter.com/CommunitiesID
+
+Deck: https://docs.google.com/presentation/d/1MCPOmdm_9H6Y_45o_p_X3Dnz2Jl2rmBefKPAIwqgDUI/edit?usp=sharing
+
+```
+
 # Communities ID SDK
+
+Communities ID's SDK offers a seamless integration for developers who aim to leverage the unique capabilities of DID within their platforms, dApps, and other applications. With a three-pronged functional approach – "Collector", "Resolver", and "Operator" – our SDK ensures a robust means to interact with various DID entities.
+
+A brief guide of Communities ID's SDK can be found here: https://docs.communities.id/developers/sdk
+
 
 ## Install
 
