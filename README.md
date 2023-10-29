@@ -12,6 +12,11 @@ DaaS refers to providing a permissionless & customizable DID framework that allo
 
 **Highly Customizable**: Rich economic models and pricing strategies to align with specific community management needs.
 
+
+## 🤝 Integration with Chainbase
+
+The Communities ID SDK enables forward and reverse resolution between wallet addresses and DIDs. To achieve this functionality, it's necessary to retrieve the list of Brand DIDs and find all the User DIDs under a specific Brand DID. Communities ID utilizes Chainbase's services to implement the [getAllBrandDIDs](https://github.com/communities-id/id/blob/chainbase/README.md#collectorgetallbranddids) and [getAllUserDIDsOwnedByBrand](https://github.com/communities-id/id/blob/chainbase/README.md#collectorgetalluserdidsownedbybrand) functions.
+
 ## 🔗Links 
 
 Website: https://www.communities.id/
@@ -24,12 +29,13 @@ Deck: https://docs.google.com/presentation/d/1MCPOmdm_9H6Y_45o_p_X3Dnz2Jl2rmBefK
 
 Video Demo: https://drive.google.com/file/d/1khkb5x3Ck59Ws9fmWL-XxIClVFF0B8yu/view?usp=drive_link
 
+
+
 # Communities ID SDK
 
 Communities ID's SDK offers a seamless integration for developers who aim to leverage the unique capabilities of DID within their platforms, dApps, and other applications. With a three-pronged functional approach – "Collector", "Resolver", and "Operator" – our SDK ensures a robust means to interact with various DID entities.
 
 A brief guide of Communities ID's SDK can be found here: https://docs.communities.id/developers/sdk
-
 
 ## Install
 
