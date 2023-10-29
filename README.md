@@ -22,7 +22,7 @@ Twitter: https://twitter.com/CommunitiesID
 
 Deck: https://docs.google.com/presentation/d/1MCPOmdm_9H6Y_45o_p_X3Dnz2Jl2rmBefKPAIwqgDUI/edit?usp=sharing
 
-```
+Video Demo: https://drive.google.com/file/d/1khkb5x3Ck59Ws9fmWL-XxIClVFF0B8yu/view?usp=drive_link
 
 # Communities ID SDK
 
