@@ -21,11 +21,18 @@ export default class OpenseaSDK {
     const baseUrl = this.isTestnet ? 'https://testnets-api.opensea.io/api/v2/chain' : 'https://api.opensea.io/api/v2/chain'
     const chainMap = {
       [ChainIDs.Ethereum]: 'ethereum',
+      [ChainIDs.Polygon]: 'matic',
+      [ChainIDs.Base]: 'base',
+      [ChainIDs.OP]: 'optimism',
       [ChainIDs.BSC]: 'bsc',
       [TestnetChainIDs.Goerli]: 'goerli',
       [TestnetChainIDs["Polygon Mumbai"]]: 'mumbai',
       [TestnetChainIDs["Base Goerli Testnet"]]: 'base_goerli',
-      [TestnetChainIDs["Optimism Goerli Testnet"]]: 'optimism_goerli'
+      [TestnetChainIDs["Optimism Goerli Testnet"]]: 'optimism_goerli',
+      [TestnetChainIDs["BNB Smart Chain Testnet"]]: 'bsctestnet'
+    }
+    if (!chainMap[chainID]) {
+      throw new Error(`This method is currently not support for chain ${chainID}`)
     }
     return `${baseUrl}/${chainMap[chainID]}`
   }

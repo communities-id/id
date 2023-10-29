@@ -158,7 +158,7 @@ const res = await collector.searchUserDIDByTokenId('0x123...', 1, 80001)
 
 #### ```collector.getAllBrandDIDs```
 
-Get all brand DID in specific chain, if you call this on mainnet, opensea Key is required required
+Get all brand DID in specific chain, if you call this on mainnet, opensea Key is required
 
 Input:
 
@@ -241,7 +241,7 @@ const res = await collector.getAllBrandDIDsJoinedByAddress('0x000000000000000000
 
 #### ```collector.getAllUserDIDsOwnedByBrand```
 
-Get all user DIDs under specific brand DID, only works when you provide the alchemy key of the chain which brand DID on
+Get all user DIDs under specific brand DID, if you call this on mainnet, opensea Key is required
 
 Input:
 
