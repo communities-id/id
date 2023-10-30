@@ -6,19 +6,19 @@ const OPTIONS: CommunitiesIDInput = {
   isTestnet: false,
   openseaKey: process.env.OPENSEA_KEY || '',
   Ethereum: {
-    RPCUrl: process.env.RPC_URL || ''
+    RPCUrl: process.env.MAINNET_RPC_URL || ''
   },
   Polygon: {
-    RPCUrl: ''
+    RPCUrl: process.env.POLYGON_RPC_URL || ''
   },
   Base: {
-    RPCUrl: ''
+    RPCUrl: process.env.BASE_RPC_URL || ''
   },
   OP: {
-    RPCUrl: ''
+    RPCUrl: process.env.OP_RPC_URL || ''
   },
   BSC: {
-    RPCUrl: process.env.RPC_URL || ''
+    RPCUrl: process.env.BSC_RPC_URL || ''
   },
   Scroll: {
     RPCUrl: ''
@@ -52,8 +52,9 @@ test("should searchUserDID with brandDID works well", async () => {
   console.log(res)
 });
 
+
 test("should resolveName works well", async () => {
-  const res = await resolver.resolveName('a.did')
+  const res = await resolver.resolveName('j.communitiesid')
   console.log(res)
 });
 
@@ -68,17 +69,17 @@ test("should getAllBrandDIDs works well", async () => {
 });
 
 test("should getAllBrandDIDsOwnedByAddress works well", async () => {
-  const res: any[] = await collector.getAllBrandDIDsOwnedByAddress(ADDRESS, 5)
+  const res: any[] = await collector.getAllBrandDIDsOwnedByAddress(ADDRESS, 1)
   console.log(res.map(v => v.name))
 });
 
-test.only("should getAllUserDIDsOwnedByAddress works well", async () => {
-  const res: any[] = await collector.getAllUserDIDsOwnedByAddress(ADDRESS, 5)
+test("should getAllUserDIDsOwnedByAddress works well", async () => {
+  const res: any[] = await collector.getAllUserDIDsOwnedByAddress(ADDRESS, 1)
   console.log(res.map(v => v.name))
 });
 
-test.only("should getAllBrandDIDsJoinedByAddress works well", async () => {
-  const res: any[] = await collector.getAllBrandDIDsJoinedByAddress(ADDRESS, 5)
+test("should getAllBrandDIDsJoinedByAddress works well", async () => {
+  const res: any[] = await collector.getAllBrandDIDsJoinedByAddress(ADDRESS, 1)
   console.log(res)
 });
 
@@ -88,7 +89,7 @@ test("should getAllUserDIDsOwnedByBrand works well", async () => {
 });
 
 test("should getAllUserDIDsOwnedByBrand with registry and chain works well", async () => {
-  const res: any[] = await collector.getAllUserDIDsOwnedByBrand('', '0x6c3c46ccd0382653346fdd9912e9764876718060', 5)
+  const res: any[] = await collector.getAllUserDIDsOwnedByBrand('', '0x6c3c46ccd0382653346fdd9912e9764876718060', 1)
   console.log(res.map(v => v.name))
 });
 

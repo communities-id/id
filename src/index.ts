@@ -3,6 +3,7 @@ import { CommunitiesIDInput, SupportedChains } from "./shared/types";
 import Resolver from "./resolver";
 import Collector from "./collector";
 import Operator from "./operator";
+import { CHAINS_NETWORK_TO_ID } from "./shared/constant";
 
 export default class CommunitiesID {
   version: string
@@ -31,7 +32,10 @@ export default class CommunitiesID {
         continue
       }
       if (options[i].RPCUrl) {
-        this.providers[i] = options[i].RPCUrl.indexOf('wss://') > -1 ? new ethers.providers.WebSocketProvider(options[i].RPCUrl) : new ethers.providers.JsonRpcProvider(options[i].RPCUrl)
+        const network = CHAINS_NETWORK_TO_ID(this.isTestnet)[i]
+        this.providers[i] = options[i].RPCUrl.indexOf('wss://') > -1 ? 
+          new ethers.providers.WebSocketProvider(options[i].RPCUrl, network) : 
+          new ethers.providers.JsonRpcProvider(options[i].RPCUrl, network)
       }
       this.signerGenerator[i] = options[i].generateSigner
     }

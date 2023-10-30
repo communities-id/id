@@ -179,7 +179,6 @@ export default class SDKBase {
     const CommunityRegistry = this.getContract(contractAddress.CommunityRegistry, ABIs.CommunityRegistry, _chainId)
 
     const node = await CommunityRegistry.getNode(keccak256(name))
-
     if (!node.node) {
       return { chainId }
     }

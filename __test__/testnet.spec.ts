@@ -60,11 +60,11 @@ const { resolver, collector, operator } = sdk
 const ADDRESS = '0xca07bD081A9cc15b45D3Fe2BbE7762B923Ca4B29'
 
 test("should searchBrandDID works well", async () => {
-  const res = await collector.searchBrandDID('gene208')
+  const res = await collector.searchBrandDID('jtest1')
   console.log(res)
 });
 
-test.only("should searchBrandDIDByTokenId works well", async () => {
+test("should searchBrandDIDByTokenId works well", async () => {
   const res = await collector.searchBrandDIDByTokenId(7, 84531)
   console.log(res)
 });
