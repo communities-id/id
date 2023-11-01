@@ -35,7 +35,7 @@ export default class CommunitiesID {
         const network = CHAINS_NETWORK_TO_ID(this.isTestnet)[i]
         this.providers[i] = options[i].RPCUrl.indexOf('wss://') > -1 ? 
           new ethers.providers.WebSocketProvider(options[i].RPCUrl, network) : 
-          new ethers.providers.JsonRpcProvider(options[i].RPCUrl, network)
+          new ethers.providers.StaticJsonRpcProvider(options[i].RPCUrl, network)
       }
       this.signerGenerator[i] = options[i].generateSigner
     }
