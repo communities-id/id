@@ -23,6 +23,14 @@ export default class Resolver extends SDKBase {
     }
     const memberName = name.substring(0, dotPosition);
     const communityName = name.substring(dotPosition + 1);
+    if (!this.isTestnet) {
+      if (communityName === 'eth') {
+        return await this._resolveNameFromEns(name)
+      }
+      if (communityName === 'bnb' || communityName === 'arb') {
+        return await this._resolveNameFromSID(name)
+      }
+    }
     let chainId = 0
     const nameToChainId = this.isTestnet ? COMMUNITY_NAME_TO_CHAINID_MAP_TESTNET : COMMUNITY_NAME_TO_CHAINID_MAP_MAINNET
     const nameToAddress = this.isTestnet ? COMMUNITY_NAME_TO_ADDRESS_MAP_TESTNET : COMMUNITY_NAME_TO_ADDRESS_MAP_TESTNET
@@ -48,14 +56,7 @@ export default class Resolver extends SDKBase {
         return owner
       }
     }
-    if (!this.isTestnet) {
-      if (communityName === 'eth') {
-        return await this._resolveNameFromEns(name)
-      }
-      if (communityName === 'bnb' || communityName === 'arb') {
-        return await this._resolveNameFromSID(name)
-      }
-    }
+    
     return null
   }
 
