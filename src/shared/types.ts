@@ -6,7 +6,8 @@ export enum ChainIDs {
   BSC = 56,
   Base = 8453,
   OP = 10,
-  Scroll = 534352
+  Scroll = 534352,
+  Astar = 592
 }
 
 export enum TestnetChainIDs {

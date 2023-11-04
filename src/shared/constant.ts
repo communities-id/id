@@ -40,7 +40,8 @@ export const CHAINS_NETWORK_TO_ID = isTestnet => isTestnet ? {
   Base: ChainIDs.Base,
   OP: ChainIDs.OP,
   BSC: ChainIDs.BSC,
-  Scroll: ChainIDs.Scroll
+  Scroll: ChainIDs.Scroll,
+  Astar: ChainIDs.Astar
 }
 
 const testnetIdToNetworkMap = {}
@@ -306,6 +307,25 @@ const CONTRACT_ADDRESS_SCROLL = {
   PrimaryRecord: '0x950DA0957a0128Abe2Ec445Afea1C57f8B135d10'
 }
 
+const CONTRACT_ADDRESS_ASTAR = {
+  BaseNodeValidator: '0xE78DB33F8278CEA9f197689BB2863c3c05fEe522',
+  SubNodeValidator: '0x822Caeb805AffCce3D399BD08Abe1B2E35dcB06b',
+  CommunityTokenURIValidator: '0x2bc0d6915f02593d5c7387156997dda10566dC9a',
+  CommunityTokenURI: '0x640216Ea5b2aC018b1d1FDB3F0a206F652C92574',
+  CommunityRegistry: '0x2154E691091C650Aa2788BF43a878b7df932b0bD',
+  MemberRouter: '0x0DbE6ad0C681E4055f18509cbdde2dbdF3626065',
+  MemberProtocolFee: '0x4C35E2d49592992Bbf64334A7F632ACC454A2582',
+  MemberRegistry: '0xfBFB4E60A5a6f08790715d1435bd4F392b2f04f7',
+  MemberTokenomics: '0x349C8aD4f5555aA9E4BCE37b2379266762882D4B',
+  MemberTokenURI: '0xfEB14303afeDAAFf9af63E37ae51d86F19010169',
+  CommunityRegistryInterface: '0x213cba02742735d1D0F9D692b1E694644f29c87C',
+  RelayerReplicaCommunityRegistryInterface: '0x213cba02742735d1D0F9D692b1E694644f29c87C',
+  RelayerCommunityRegistryInterface: '0x0000000000000000000000000000000000000000',
+  MemberRegistryInterfaceFactory: '0xf43EF51EeBd1885165BF5D3Bfb2CEe88FE2dD589',
+  TextRecord: '0x4F0061b6ad8be8C038A1447c67eB959017F884e6',
+  PrimaryRecord: '0xd825A94EAcA80e3e2cBf44C2AdD2202031086b04'
+}
+
 export const CONTRACT_MAP = isTestnet => isTestnet ? {
   [TestnetChainIDs.Goerli]: CONTRACT_ADDRESS_GOERLI,
   [TestnetChainIDs['Polygon Mumbai']]: CONTRACT_ADDRESS_MUMBAI,
@@ -321,6 +341,7 @@ export const CONTRACT_MAP = isTestnet => isTestnet ? {
   [ChainIDs.OP]: CONTRACT_ADDRESS_OP,
   [ChainIDs.BSC]: CONTRACT_ADDRESS_BSC,
   [ChainIDs.Scroll]: CONTRACT_ADDRESS_SCROLL,
+  [ChainIDs.Astar]: CONTRACT_ADDRESS_ASTAR,
 }
 
 export const ABIs = {
