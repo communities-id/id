@@ -113,8 +113,12 @@ export default class Resolver extends SDKBase {
 
   async _resolveNameFromEns(name: string) {
     const provider = this.providers.Ethereum
-    const ensName = await provider.resolveName(name);
-    return ensName
+    try {
+      const ensName = await provider.resolveName(name);
+      return ensName
+    } catch (e) {
+      return null
+    }
   }
 
   async _resolveNameFromSID(name: string) {
@@ -124,13 +128,17 @@ export default class Resolver extends SDKBase {
       try {
         const sid = new SID({ provider: this.providers.BSC, sidAddress: getSidAddress(97) })
         return await sid.name(name).getAddress()
-      } catch (e) { }
+      } catch (e) {
+        return null
+      }
     }
     if (communityName === 'arb' && this.providers.arbitrum) {
       try {
         const sid = new SID({ provider: this.providers.arbitrum, sidAddress: getSidAddress(42161) })
         return await sid.name(name).getAddress('ARB1')
-      } catch (e) { }
+      } catch (e) {
+        return null
+      }
     }
     return null
   }
