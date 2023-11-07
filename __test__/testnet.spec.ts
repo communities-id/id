@@ -128,6 +128,16 @@ test("should getAllUserDIDsOwnedByBrand with registry and chain works well", asy
   console.log(res.map(v => v.name))
 });
 
+test("should getAllUserDIDsOfOneWalletInOneBrand with name works well", async () => {
+  const res: any[] = await collector.getAllUserDIDsOfOneWalletInOneBrand('0xca07bD081A9cc15b45D3Fe2BbE7762B923Ca4B29', 'jtest1')
+  console.log(res.map(v => v.name))
+});
+
+test("should getAllUserDIDsOfOneWalletInOneBrand with registry and chain works well", async () => {
+  const res: any[] = await collector.getAllUserDIDsOfOneWalletInOneBrand('0xca07bD081A9cc15b45D3Fe2BbE7762B923Ca4B29', '', '0x724123c1D1a65928E9831795A97bD94b2015742c', 5)
+  console.log(res.map(v => v.name))
+});
+
 test('should getMintUserDIDPrice works well', async() => {
   const res = await operator.getMintUserDIDPrice('a.goerlitest1')
   console.log(res)

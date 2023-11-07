@@ -25,7 +25,8 @@ export type SupportedChainIds = ToNumber<`${ChainIDs}` | `${TestnetChainIDs}`>
 export type SupportedChains = keyof typeof ChainIDs | keyof typeof TestnetChainIDs
 
 export type mainnetCommunitiesIDInput = Record<keyof typeof ChainIDs, {
-  RPCUrl: string
+  RPCUrl?: string
+  provider?: ethers.providers.Provider
   generateSigner?: (provider: ethers.providers.Provider) => ethers.Signer
 }> & { 
   isTestnet?: false,
@@ -34,7 +35,8 @@ export type mainnetCommunitiesIDInput = Record<keyof typeof ChainIDs, {
 }
 
 export type testnetCommunitiesIDInput = Record<keyof typeof TestnetChainIDs, {
-  RPCUrl: string
+  RPCUrl?: string
+  provider?: ethers.providers.Provider
   generateSigner?: (provider: ethers.providers.Provider) => ethers.Signer
 }> & {
   openseaKey: string,

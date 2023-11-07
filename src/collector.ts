@@ -122,4 +122,27 @@ export default class Collector extends SDKBase {
     const res = await this.openseaSDK.fetchAllMembersOfCommunity(registry, chainID)
     return res
   }
+
+  /**
+   * Get all user DIDs owned by specific address under specific brand DID
+   *
+   * @param address - The address you want to get user DIDs
+   * @param name - The name owned by brand DID, if pass registry and chainID, this parameter will be ignored
+   * @param registry - The registry address of this brand DID
+   * @param chainID - The chain ID this brand DID is on
+   *
+   */
+  async getAllUserDIDsOfOneWalletInOneBrand(address: string, name: string, registry?: string, chainID?: SupportedChainIds): Promise<object[]> {
+    if (!registry || !chainID) {
+      const commnuityInfo = await this.searchBrandDID(name)
+      if (!commnuityInfo || !commnuityInfo.node) {
+        return null
+      }
+      const { node, chainId } = commnuityInfo
+      registry = node.registry
+      chainID = chainId as SupportedChainIds
+    }
+    const allNFTsOfAddress = await this.openseaSDK._fetchAllNFTsOfUser(chainID, address)
+    return allNFTsOfAddress.filter(v => v.contract.toLowerCase() === registry.toLowerCase())
+  }
 }

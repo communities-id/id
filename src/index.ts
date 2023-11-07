@@ -31,11 +31,15 @@ export default class CommunitiesID {
       if (i === 'isTestnet') {
         continue
       }
-      if (options[i].RPCUrl) {
-        const network = CHAINS_NETWORK_TO_ID(this.isTestnet)[i]
-        this.providers[i] = options[i].RPCUrl.indexOf('wss://') > -1 ? 
-          new ethers.providers.WebSocketProvider(options[i].RPCUrl, network) : 
-          new ethers.providers.StaticJsonRpcProvider(options[i].RPCUrl, network)
+      if (options[i].provider || options[i].RPCUrl) {
+        if (options[i].provider) {
+          this.providers[i] = options[i].provider
+        } else {
+          const network = CHAINS_NETWORK_TO_ID(this.isTestnet)[i]
+          this.providers[i] = options[i].RPCUrl.indexOf('wss://') > -1 ? 
+            new ethers.providers.WebSocketProvider(options[i].RPCUrl, network) : 
+            new ethers.providers.StaticJsonRpcProvider(options[i].RPCUrl, network)
+        }
       }
       this.signerGenerator[i] = options[i].generateSigner
     }

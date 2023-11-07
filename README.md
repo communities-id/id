@@ -34,12 +34,26 @@ const OPTIONS: CommunitiesIDInput = {
   Scroll: {
     RPCUrl: '<Your rpc url for this chain>'
   },
+  // This is for resolve name for space id only
   arbitrum: {
     RPCUrl: '<Your rpc url for this chain>'
   },
 }
 
 const { resolver, collector, operator } = new CommunitiesID(options);
+```
+
+You can also initialize it with provider (except arbitrum, because it is only used for resolve name for space id)
+
+``` javascript
+const OPTIONS: CommunitiesIDInput = {
+  isTestnet: false,
+  openseaKey: '<Your opensea api key>',
+  Ethereum: {
+    provider: new ethers.providers.JsonRpcProvider('xxx')
+  },
+  ...
+}
 ```
 
 If you want to use this sdk on communitiesID testnet, you can initialize it like this:
@@ -249,7 +263,7 @@ Input:
 |---|---|---|---|
 |name|string|The name of the brand DID, if registry and chain is provided, the name will be ignored, and the query efficiency will improve|true|
 |registry|string|The registry of this brand DID|false|
-|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|true|
+|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|false|
 
 Output: `Promise<object[]>`
 
@@ -258,6 +272,28 @@ Example:
 ``` javascript
 const res = await collector.getAllUserDIDsOwnedByBrand('did')
 const res = await collector.getAllUserDIDsOwnedByBrand('', '0x123', 5)
+```
+
+#### ```collector.getAllUserDIDsOfOneWalletInOneBrand```
+
+Get all user DIDs owned by specific address under specific brand DID
+
+Input:
+
+|Name|Type|Description|required|
+|---|---|---|---|
+|address|string|he address you want to get user DIDs|true|
+|name|string|The name of the brand DID, if registry and chain is provided, the name will be ignored, and the query efficiency will improve|true|
+|registry|string|The registry of this brand DID|false|
+|chainId|SupportedChainIds|The chain ID that you want to get brand DIDs|false|
+
+Output: `Promise<object[]>`
+
+Example: 
+
+``` javascript
+const res = await collector.getAllUserDIDsOfOneWalletInOneBrand('0x123', 'did')
+const res = await collector.getAllUserDIDsOfOneWalletInOneBrand('0x123', '', '0x123', 5)
 ```
 
 ### resolver
