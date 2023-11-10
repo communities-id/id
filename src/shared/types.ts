@@ -128,6 +128,8 @@ export type MintUserDIDOptions = {
   brandDID?: BrandDID
   // The wallet address to pay excees part money to
   refundRecipient?: string
+  // The config for sending transaction
+  txConfig?: object
   // The callback function when the transaction is created
   onTransactionCreated?: (transaction: object) => any
 }
@@ -141,6 +143,8 @@ export type RenewUserDIDOptions = {
    userDID?: UserDID
    // The wallet address to pay excees part money to
    refundRecipient?: string
+   // The config for sending transaction
+   txConfig?: object
    // The callback function when the transaction is created
    onTransactionCreated?: (transaction: object) => any
 }
@@ -149,6 +153,8 @@ export type RenewUserDIDOptions = {
 export type BurnUserDIDOptions = {
   // The brand did that this member belongs to, if you do not pass this, this function will get the brand did by itself
   brandDID?: BrandDID
+  // The config for sending transaction
+  txConfig?: object
   // The callback function when the transaction is created
   onTransactionCreated?: (transaction: object) => any
 }
