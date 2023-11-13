@@ -395,6 +395,7 @@ Input:
 |options.mintPrice|BigNumber \| number \| string|The price to mint this brand DID, if you do not pass this, this function will get the price by itself|false|
 |options.refundRecipient|string|If you passed higher value than mint price, the excees part will transfer to this wallet, default is address of signer|false|
 |options.brandDID|BrandDID|The brand DID that this user DID belongs to, if you do not pass this, this function will get the brand DID by itself|false|
+|options.txConfig|Object|The config for sending transaction|false|
 |options.onTransactionCreated|(transaction: object) => any|The callback function when the transaction is created|false|
 
 
@@ -444,6 +445,7 @@ Input:
 |options.brandDID|BrandDID|The brand DID that this user DID belongs to, if you do not pass this, this function will get the brand DID by itself|false|
 |options.userDID|UserDID|The user DID object that you want to renew, if you do not pass this, this function will get the brand DID by itself|false|
 |options.refundRecipient|string|If you passed higher value than mint price, the excees part will transfer to this wallet, default is address of signer|false|
+|options.txConfig|Object|The config for sending transaction|false|
 |options.onTransactionCreated|(transaction: object) => any|The callback function when the transaction is created|false|
 
 
@@ -465,6 +467,7 @@ Input:
 |name|string|The name of the user DID|true|
 |options|BurnUserDIDOptions|burn options|false|
 |options.brandDID|BrandDID|The brand DID that this user DID belongs to, if you do not pass this, this function will get the brand DID by itself|false|
+|options.txConfig|Object|The config for sending transaction|false|
 |options.onTransactionCreated|(transaction: object) => any|The callback function when the transaction is created|false|
 
 
@@ -486,6 +489,7 @@ Input:
 |---|---|---|---|
 |name|string|The name of the user DID|true|
 |options|object|setAsPrimary options|false|
+|options.txConfig|Object|The config for sending transaction|false|
 |options.onTransactionCreated|(transaction: object) => any|The callback function when the transaction is created|false|
 
 

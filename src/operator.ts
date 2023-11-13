@@ -84,7 +84,7 @@ export default class Operator extends SDKBase {
         if (!isLegacyCommunity) {
           args.push(mintOptions.refundRecipient)
         }
-        const mintTx = await MemberRegistryInterface.publicMint(...args, { value: totalPrice.toString() })
+        const mintTx = await MemberRegistryInterface.publicMint(...args, { value: totalPrice.toString(), ...mintOptions.txConfig })
         if (mintOptions.onTransactionCreated) {
           mintOptions.onTransactionCreated(mintTx)
         }
@@ -99,7 +99,7 @@ export default class Operator extends SDKBase {
           if (!isLegacyCommunity) {
             args.push(mintOptions.refundRecipient)
           }
-          const mintTx = await MemberRegistryInterface.holdingMint(...args, { value: totalPrice.toString() })
+          const mintTx = await MemberRegistryInterface.holdingMint(...args, { value: totalPrice.toString(), ...mintOptions.txConfig })
           if (mintOptions.onTransactionCreated) {
             mintOptions.onTransactionCreated(mintTx)
           }
@@ -121,7 +121,7 @@ export default class Operator extends SDKBase {
         if (!isLegacyCommunity) {
           args.push(mintOptions.refundRecipient)
         }
-        const mintTx = await MemberRegistryInterface.signatureMint(...args, { value: totalPrice.toString() })
+        const mintTx = await MemberRegistryInterface.signatureMint(...args, { value: totalPrice.toString(), ...mintOptions.txConfig })
         if (mintOptions.onTransactionCreated) {
           mintOptions.onTransactionCreated(mintTx)
         }
@@ -202,7 +202,7 @@ export default class Operator extends SDKBase {
       if (!isLegacyCommunity) {
         args.push(renewOptions.refundRecipient)
       }
-      const tx = await MemberRegistryInterface.renew(...args, { value: totalPrice.toString() });
+      const tx = await MemberRegistryInterface.renew(...args, { value: totalPrice.toString(), ...renewOptions.txConfig });
       if (renewOptions.onTransactionCreated) {
         renewOptions.onTransactionCreated(tx)
       }
@@ -243,7 +243,7 @@ export default class Operator extends SDKBase {
     const procotolFee = await MemberProtocolFee.getProtocolFee(node.registry, 4);
 
     try {
-      const tx = await MemberRegistryInterface.burn(keccak256(memberName), { value: procotolFee.toString() });
+      const tx = await MemberRegistryInterface.burn(keccak256(memberName), { value: procotolFee.toString(), ...burnOptions.txConfig });
       if (burnOptions.onTransactionCreated) {
         burnOptions.onTransactionCreated(tx)
       }
@@ -263,9 +263,10 @@ export default class Operator extends SDKBase {
    *
    * @param name - The name of the did
    * @param options - The options for set primary
+   * @param options.txConfig - The config for sending transaction
    * @param options.onTransactionCreated - The callback function when the transaction is created
    */
-  async setAsPrimary(name: string, options: { onTransactionCreated?: (transaction: object) => any } = {}) {
+  async setAsPrimary(name: string, options: { txConfig?: object, onTransactionCreated?: (transaction: object) => any } = {}) {
     const chainId = MAIN_CHAIN_ID(this.isTestnet)
     const contractAddress = CONTRACT_MAP(this.isTestnet)[chainId]
     const PrimaryRecord = this.getWriteContract(contractAddress.PrimaryRecord, ABIs.PrimaryRecord, chainId)
@@ -276,7 +277,7 @@ export default class Operator extends SDKBase {
     let empty = ethers.utils.formatBytes32String("")
     try {
       const procotolFee = await MemberProtocolFee.getProtocolFee(ONE_ADDRESS, 5);
-      const tx = await PrimaryRecord.setPrimaryRecord(community ? keccak256(community) : empty, member ? keccak256(member) : empty, { value: procotolFee.toString() })
+      const tx = await PrimaryRecord.setPrimaryRecord(community ? keccak256(community) : empty, member ? keccak256(member) : empty, { value: procotolFee.toString(), ...options.txConfig })
       if (options.onTransactionCreated) {
         options.onTransactionCreated(tx)
       }
