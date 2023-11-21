@@ -33,7 +33,7 @@ export const CHAINS_NETWORK_TO_ID = isTestnet => isTestnet ? {
   'Optimism Goerli Testnet': TestnetChainIDs['Optimism Goerli Testnet'],
   'BNB Smart Chain Testnet': TestnetChainIDs['BNB Smart Chain Testnet'],
   'Scroll Sepolia Testnet': TestnetChainIDs['Scroll Sepolia Testnet'],
-  'Shibuya Testnet': TestnetChainIDs['Shibuya Testnet']
+  'zKatana Testnet': TestnetChainIDs['zKatana Testnet']
 } : {
   Ethereum: ChainIDs.Ethereum,
   Polygon: ChainIDs.Polygon,
@@ -174,7 +174,7 @@ const CONTRACT_ADDRESS_SCROLL_TESTNET = {
   PrimaryRecord: '0xbc1D7AD62979A03e242b505cD4e15c84AE41Cfd6',
 }
 
-const CONTRACT_ADDRESS_ASTAR_SHIBUYA = {
+const CONTRACT_ADDRESS_ASTAR_ZKATANA = {
   BaseNodeValidator: '0x04215617861853a2B00a5003137901e0CEf5364c',
   SubNodeValidator: '0x3aB0B78B7a6A51602722730b5fCCDAeadAb7929f',
   CommunityTokenURIValidator: '0x98eFDdF61749125BA1fd6A5B2ff6bF2816987583',
@@ -333,7 +333,7 @@ export const CONTRACT_MAP = isTestnet => isTestnet ? {
   [TestnetChainIDs['Optimism Goerli Testnet']]: CONTRACT_ADDRESS_OP_GOERLI,
   [TestnetChainIDs['BNB Smart Chain Testnet']]: CONTRACT_ADDRESS_BSC_TESTNET,
   [TestnetChainIDs['Scroll Sepolia Testnet']]: CONTRACT_ADDRESS_SCROLL_TESTNET,
-  [TestnetChainIDs['Shibuya Testnet']]: CONTRACT_ADDRESS_ASTAR_SHIBUYA
+  [TestnetChainIDs['zKatana Testnet']]: CONTRACT_ADDRESS_ASTAR_ZKATANA
 } : {
   [ChainIDs.Ethereum]: CONTRACT_ADDRESS_MAINNET,
   [ChainIDs.Polygon]: CONTRACT_ADDRESS_POLYGON,

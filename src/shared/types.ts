@@ -17,7 +17,7 @@ export enum TestnetChainIDs {
   'Base Goerli Testnet' = 84531,
   'Optimism Goerli Testnet' = 420,
   'Scroll Sepolia Testnet' = 534351,
-  'Shibuya Testnet'= 81
+  'zKatana Testnet'= 1261120
 }
 
 type ToNumber<S> = S extends `${infer N extends number}` ? N : never
