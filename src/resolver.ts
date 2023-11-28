@@ -33,7 +33,7 @@ export default class Resolver extends SDKBase {
     }
     let chainId = 0
     const nameToChainId = this.isTestnet ? COMMUNITY_NAME_TO_CHAINID_MAP_TESTNET : COMMUNITY_NAME_TO_CHAINID_MAP_MAINNET
-    const nameToAddress = this.isTestnet ? COMMUNITY_NAME_TO_ADDRESS_MAP_TESTNET : COMMUNITY_NAME_TO_ADDRESS_MAP_TESTNET
+    const nameToAddress = this.isTestnet ? COMMUNITY_NAME_TO_ADDRESS_MAP_TESTNET : COMMUNITY_NAME_TO_ADDRESS_MAP_MAINNET
     if (nameToChainId[communityName]) {
       chainId = nameToChainId[communityName]
     } else {
@@ -52,6 +52,7 @@ export default class Resolver extends SDKBase {
       }
       if (registry) {
         const MemberRegistry = this.getContract(registry, ABIs.MemberRegistry, chainId as SupportedChainIds)
+        console.log(chainId, MemberRegistry.address, keccak256(memberName))
         const owner = await MemberRegistry.ownerOfNode(keccak256(memberName))
         return owner
       }
