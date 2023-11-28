@@ -52,7 +52,6 @@ export default class Resolver extends SDKBase {
       }
       if (registry) {
         const MemberRegistry = this.getContract(registry, ABIs.MemberRegistry, chainId as SupportedChainIds)
-        console.log(chainId, MemberRegistry.address, keccak256(memberName))
         const owner = await MemberRegistry.ownerOfNode(keccak256(memberName))
         return owner
       }
