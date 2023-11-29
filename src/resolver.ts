@@ -1,5 +1,5 @@
 import SID, { getSidAddress } from '@siddomains/sidjs'
-import { ABIs, CONTRACT_MAP, MAIN_CHAIN_ID } from "./shared/constant";
+import { ABIs, CONTRACT_MAP, MAIN_CHAIN_ID, ZERO_ADDRESS } from "./shared/constant";
 import SDKBase from "./base";
 import { keccak256 } from "./shared/utils";
 import { SupportedChainIds } from "./shared/types";
@@ -53,7 +53,7 @@ export default class Resolver extends SDKBase {
       if (registry) {
         const MemberRegistry = this.getContract(registry, ABIs.MemberRegistry, chainId as SupportedChainIds)
         const owner = await MemberRegistry.ownerOfNode(keccak256(memberName))
-        return owner
+        return owner === ZERO_ADDRESS ? null : owner
       }
     }
     
