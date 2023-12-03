@@ -22,6 +22,9 @@ const OPTIONS: CommunitiesIDInput = {
   },
   'Scroll Sepolia Testnet': {
     RPCUrl: process.env.SCROLL_SEPOLIA_RPC_URL || ''
+  },
+  "zKatana Testnet":{
+    RPCUrl: process.env.ZKATANA_RPC_URL || ''
   }
 }
 
@@ -51,6 +54,10 @@ const WRITEABLE_OPTIONS: CommunitiesIDInput = {
   'Scroll Sepolia Testnet': {
     RPCUrl: process.env.SCROLL_SEPOLIA_RPC_URL || '',
     generateSigner: provider => new ethers.Wallet(process.env.PRIVATE_KEY || '', provider)
+  },
+  "zKatana Testnet":{
+    RPCUrl: process.env.ZKATANA_RPC_URL || '',
+    generateSigner: provider => new ethers.Wallet(process.env.PRIVATE_KEY || '', provider)
   }
 }
 
@@ -60,7 +67,7 @@ const { resolver, collector, operator } = sdk
 const ADDRESS = '0xca07bD081A9cc15b45D3Fe2BbE7762B923Ca4B29'
 
 test("should searchBrandDID works well", async () => {
-  const res = await collector.searchBrandDID('jtest1')
+  const res = await collector.searchBrandDID('scrolltest')
   console.log(res)
 });
 
@@ -70,7 +77,7 @@ test("should searchBrandDIDByTokenId works well", async () => {
 });
 
 test("should searchUserDID works well", async () => {
-  const res = await collector.searchUserDID('a.jtest7')
+  const res = await collector.searchUserDID('a.jtest1')
   console.log(res)
 });
 
@@ -88,8 +95,8 @@ test("should searchUserDID with brandDID works well", async () => {
   console.log(res)
 });
 
-test("should resolveName works well", async () => {
-  const res = await resolver.resolveName('a.did')
+test.only("should resolveName works well", async () => {
+  const res = await resolver.resolveName('a.jtEst9')
   console.log(res)
 });
 

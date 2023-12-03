@@ -70,9 +70,9 @@ export default class SDKBase {
     const CommunityRegistry = this.getContract(contractMap[mainChainId].CommunityRegistry, ABIs.CommunityRegistry, mainChainId);
     const labelHash = needHash ? keccak256(name) : name
     const chainId = await RelayerCommunityRegistryInterface.getOmniNodeChainId(labelHash)
-    const node = await CommunityRegistry.getNode(labelHash)
-    if (!Number(chainId) && node.node) {
-      return mainChainId
+    if (!Number(chainId)) {
+      const node = await CommunityRegistry.getNode(labelHash)
+      return node.node ? mainChainId : 0
     }
     return Number(chainId)
   }

@@ -23,6 +23,9 @@ const OPTIONS: CommunitiesIDInput = {
   Scroll: {
     RPCUrl: ''
   },
+  Astar:{
+    RPCUrl:''
+  },
   arbitrum: {
     RPCUrl: process.env.RPC_URL || ''
   },

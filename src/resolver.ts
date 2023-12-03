@@ -21,8 +21,8 @@ export default class Resolver extends SDKBase {
     if (dotPosition === -1) {
       throw new Error("The format of DID is invalid, the corrent format is `${member}.${community}`");
     }
-    const memberName = name.substring(0, dotPosition);
-    const communityName = name.substring(dotPosition + 1);
+    const memberName = name.substring(0, dotPosition).toLowerCase();
+    const communityName = name.substring(dotPosition + 1).toLowerCase();
     if (!this.isTestnet) {
       if (communityName === 'eth') {
         return await this._resolveNameFromEns(name)
