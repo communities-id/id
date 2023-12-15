@@ -109,7 +109,7 @@ export default class Operator extends SDKBase {
           throw new Error(`You do not have required NFTs to mint the member under community "${communityName}"`)
         }
       }
-      if (config.signatureMint && mintOptions.signature) {
+      if (config.signatureMint) {
         const commitment = {
           registry: node.registry,
           node: memberName,
