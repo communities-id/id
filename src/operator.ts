@@ -1,4 +1,4 @@
-import { ABIs, CONTRACT_MAP, MAIN_CHAIN_ID, MemberRegistryInterfaceUpgradeTime, ONE_ADDRESS } from "./shared/constant";
+import { ABIs, CONTRACT_MAP, MAIN_CHAIN_ID, MemberRegistryInterfaceUpgradeTime, ONE_ADDRESS, ZERO_ADDRESS } from "./shared/constant";
 import SDKBase from "./base";
 import { BurnUserDIDOptions, BrandDID, UserDID, MintUserDIDOptions, RenewUserDIDOptions, SupportedChainIds } from "./shared/types";
 import { keccak256, parseContractError } from "./shared/utils";
@@ -91,7 +91,7 @@ export default class Operator extends SDKBase {
         const receipt = await mintTx.wait();
         return receipt
       }
-      if (config.holdingMint && config.proofOfHolding.length > 0) {
+      if (config.holdingMint && config.proofOfHolding.length > 0 && mintTo !== ZERO_ADDRESS) {
         const proofs = await this.openseaSDK.fetchProofOfHolding(config.proofOfHolding, mintTo, chainId as SupportedChainIds)
         if (proofs) {
           const { holdingContract, holdingTokenId } = proofs
