@@ -91,7 +91,7 @@ export default class Operator extends SDKBase {
         const receipt = await mintTx.wait();
         return receipt
       }
-      if (config.holdingMint || config.proofOfHolding.length > 0) {
+      if (config.holdingMint && config.proofOfHolding.length > 0) {
         const proofs = await this.openseaSDK.fetchProofOfHolding(config.proofOfHolding, mintTo, chainId as SupportedChainIds)
         if (proofs) {
           const { holdingContract, holdingTokenId } = proofs
